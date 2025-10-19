@@ -1,0 +1,19 @@
+{
+  "name": "baladengale-markdown-site",
+  "version": "1.0.0",
+  "description": "A personal blog site created using Markdown.",
+  "main": "index.js",
+  "scripts": {
+    "build": "bash scripts/build.sh",
+    "start": "node server.js"
+  },
+  "author": "Bala Dengale",
+  "license": "MIT",
+  "dependencies": {
+    "markdown-it": "^12.0.6",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
