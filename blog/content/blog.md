@@ -4,7 +4,7 @@ Welcome to my blog! Here, you'll find a collection of my thoughts, experiences, 
 
 ## Recent Posts
 
-- [Welcome to My Blog](../posts/2025-01-01-welcome.md) - An introduction to the blog and what you can expect to find here.
+ - [Welcome to My Blog](posts/2025-01-01-welcome.html) - An introduction to the blog and what you can expect to find here.
 
 ## Categories
 

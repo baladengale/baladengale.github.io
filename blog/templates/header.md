@@ -5,7 +5,7 @@
 ```markdown
 # Bala Dengale
 
-[Home](index.md) | [Blog](blog.md) | [GitHub](https://github.com/your-github-profile)
+[Home](index.html) | [Blog](blog.html) | [GitHub](https://github.com/your-github-profile)
 
 ![Profile Image](assets/img/profile.jpg) <!-- Replace with actual image path -->
 ```

@@ -1,5 +1,3 @@
-# Content for /baladengale-markdown-site/baladengale-markdown-site/content/index.md
-
 ---
 title: "Welcome to My Homepage"
 date: 2023-10-01
@@ -13,7 +11,7 @@ Welcome to my personal website! I'm a passionate developer and tech enthusiast. 
 
 I regularly post articles on my blog. Feel free to explore my latest posts:
 
-- [Welcome to My Blog](../posts/2025-01-01-welcome.md)
+- [Welcome to My Blog](posts/2025-01-01-welcome.html)
 
 ## Connect with Me
 

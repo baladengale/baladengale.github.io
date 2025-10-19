@@ -3,20 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
     <title>Bala Dengale</title>
 </head>
 <body>
-    <header>
-        {% include 'header.md' %}
-    </header>
-    <main>
-        <article>
-            {{ content | safe }}
-        </article>
-    </main>
-    <footer>
-        {% include 'footer.md' %}
-    </footer>
+    <h1 id="blog">Blog</h1>
+    <p>Welcome to my blog! Here, you’ll find a collection of my
+    thoughts, experiences, and insights on various topics. I aim to
+    share knowledge and foster discussions through my writing.</p>
+    <h2 id="recent-posts">Recent Posts</h2>
+    <ul>
+    <li><a href="posts/2025-01-01-welcome.html">Welcome to My Blog</a> -
+    An introduction to the blog and what you can expect to find
+    here.</li>
+    </ul>
+    <h2 id="categories">Categories</h2>
+    <ul>
+    <li>Technology</li>
+    <li>Personal Development</li>
+    <li>Travel</li>
+    <li>Lifestyle</li>
+    </ul>
+    <p>Feel free to explore the posts and engage with the content. Your
+    feedback and comments are always welcome!</p>
+    <hr />
+    <p>For more updates, check out my <a
+    href="https://github.com/your-github-username">GitHub Profile</a>
+    and stay connected!</p>
 </body>
 </html>

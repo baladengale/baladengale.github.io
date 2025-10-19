@@ -1,6 +1,6 @@
 ## Footer
 
-[Blog](../content/blog.md) | [GitHub Profile](https://github.com/yourusername)
+[Blog](../blog.html) | [GitHub Profile](https://github.com/yourusername)
 
 © 2023 Your Name. All rights reserved.
 ``` 

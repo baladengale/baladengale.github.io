@@ -64,6 +64,40 @@ ensure_npm() {
 # Create output directory if it doesn't exist
 mkdir -p "$OUTPUT_DIR"
 
+# Prepare header/footer include fragments (rendered HTML) so pandoc can include them
+TMP_INCLUDE_DIR="/tmp/blog-includes-$$"
+mkdir -p "$TMP_INCLUDE_DIR"
+HEADER_MD="$TEMPLATES_DIR/header.md"
+FOOTER_MD="$TEMPLATES_DIR/footer.md"
+HEADER_HTML="$TMP_INCLUDE_DIR/header.html"
+FOOTER_HTML="$TMP_INCLUDE_DIR/footer.html"
+
+# Cleanup temp includes on exit
+cleanup_includes() {
+    rm -rf "$TMP_INCLUDE_DIR"
+}
+trap cleanup_includes EXIT
+
+# Render header/footer to HTML fragments if source files exist
+if [ -f "$HEADER_MD" ]; then
+    pandoc "$HEADER_MD" -t html -o "$HEADER_HTML" || true
+fi
+if [ -f "$FOOTER_MD" ]; then
+    pandoc "$FOOTER_MD" -t html -o "$FOOTER_HTML" || true
+fi
+
+# Copy assets into the output directory as `assets/` so generated pages
+# can reference `assets/css/styles.css` and images. Prefer rsync, fall back to cp.
+if [ -d "$BLOG_DIR/assets" ]; then
+    echo "Copying assets to output directory..."
+    if command -v rsync >/dev/null 2>&1; then
+        rsync -a --delete "$BLOG_DIR/assets/" "$OUTPUT_DIR/assets/"
+    else
+        rm -rf "$OUTPUT_DIR/assets" || true
+        cp -a "$BLOG_DIR/assets" "$OUTPUT_DIR/"
+    fi
+fi
+
 # Ensure pandoc is available. Try apt, then a binary tarball fallback.
 ensure_pandoc() {
     if command -v pandoc >/dev/null 2>&1; then
@@ -113,7 +147,15 @@ convert_markdown() {
                 echo "Warning: input file '$input_file' not found. Skipping."
                 return 0
         fi
-        pandoc "$input_file" -o "$output_file" --template="$TEMPLATES_DIR/layout.html"
+        # Include header/footer fragments if available
+        INCLUDES_OPTS=()
+        if [ -f "$HEADER_HTML" ]; then
+            INCLUDES_OPTS+=("--include-before-body=$HEADER_HTML")
+        fi
+        if [ -f "$FOOTER_HTML" ]; then
+            INCLUDES_OPTS+=("--include-after-body=$FOOTER_HTML")
+        fi
+        pandoc "$input_file" -o "$output_file" --template="$TEMPLATES_DIR/layout.html" "${INCLUDES_OPTS[@]:-}"
 }
 
 # Main
@@ -133,10 +175,25 @@ convert_markdown "$CONTENT_DIR/about.md" "$OUTPUT_DIR/about.html"
 
 # Convert all blog posts
 shopt -s nullglob
+mkdir -p "$OUTPUT_DIR/posts"
 for post in "$POSTS_DIR"/*.md; do
-        post_name=$(basename "$post" .md)
-        convert_markdown "$post" "$OUTPUT_DIR/$post_name.html"
+    [ -e "$post" ] || continue
+    post_name=$(basename "$post" .md)
+    convert_markdown "$post" "$OUTPUT_DIR/posts/$post_name.html"
 done
 shopt -u nullglob
 
 echo "Build completed. Output files are located in the '$OUTPUT_DIR' directory."
+
+# Post-process generated HTML to rewrite internal .md links to .html
+echo "Rewriting internal .md links to .html in generated HTML files..."
+find "$OUTPUT_DIR" -type f -name '*.html' -print0 | while IFS= read -r -d '' f; do
+    sed -i 's/\.md"/.html"/g' "$f" || true
+    sed -i "s/\.md'/.html'/g" "$f" || true
+    sed -i 's/\.md)/.html)/g' "$f" || true
+    sed -i 's/\.md>/.html>/g' "$f" || true
+done
+
+# Check for any remaining .md references and report (for manual review)
+echo "Checking for remaining .md references in generated HTML..."
+grep -R --line-number --null-data "\.md" "$OUTPUT_DIR" || true

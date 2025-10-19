@@ -12,4 +12,4 @@ In addition to coding, I have a keen interest in open-source projects and contri
 
 ## Connect with Me
 
-Feel free to reach out to me on [GitHub](https://github.com/your-github-profile) or check out my [Blog](./blog.md) for more insights and updates!
+Feel free to reach out to me on [GitHub](https://github.com/your-github-profile) or check out my [Blog](../blog.html) for more insights and updates!
