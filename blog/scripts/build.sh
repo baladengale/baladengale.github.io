@@ -1,14 +1,29 @@
 #!/bin/bash
 
+# If the script was invoked with `sh blog/scripts/build.sh` dash will
+# be the interpreter and doesn't support `set -o pipefail`. Re-exec with
+# bash to ensure required options are available.
+if [ -z "${BASH_VERSION-}" ]; then
+    exec bash "$0" "$@"
+fi
+
 set -euo pipefail
 
 # Build script for baladengale-markdown-site
 
-# Define directories
-CONTENT_DIR="./content"
-POSTS_DIR="./posts"
-TEMPLATES_DIR="./templates"
-OUTPUT_DIR="./output"
+# Resolve script location and define directories relative to the blog folder.
+# This allows the script to be executed from the repo root and still find the
+# blog content. OUTPUT_DIR defaults to the parent directory's `output` so the
+# generated site is placed at the repo root (../output), but can be overridden
+# by exporting OUTPUT_DIR before running the script.
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+BLOG_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+CONTENT_DIR="${CONTENT_DIR:-$BLOG_DIR/content}"
+POSTS_DIR="${POSTS_DIR:-$BLOG_DIR/posts}"
+TEMPLATES_DIR="${TEMPLATES_DIR:-$BLOG_DIR/templates}"
+# Default to repo-root/output (one level above blog). Can be overridden by
+# setting the OUTPUT_DIR environment variable before running the script.
+OUTPUT_DIR="${OUTPUT_DIR:-$BLOG_DIR/../}"
 
 # Ensure Node dependencies are installed (npm). This helps when the project contains JS/CSS build steps.
 ensure_npm() {
