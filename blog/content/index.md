@@ -17,6 +17,6 @@ I regularly post articles on my blog. Feel free to explore my latest posts:
 
 You can also find me on GitHub:
 
-- [My GitHub Profile](https://github.com/your-github-username)
+- [My GitHub Profile](https://github.com/baladengale)
 
 Thank you for visiting!

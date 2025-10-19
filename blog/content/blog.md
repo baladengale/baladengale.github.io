@@ -17,4 +17,4 @@ Feel free to explore the posts and engage with the content. Your feedback and co
 
 ---
 
-For more updates, check out my [GitHub Profile](https://github.com/your-github-username) and stay connected!
+For more updates, check out my [GitHub Profile](https://github.com/baladengale) and stay connected!
