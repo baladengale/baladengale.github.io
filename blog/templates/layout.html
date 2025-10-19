@@ -3,10 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <title>Bala Dengale</title>
+    <link rel="stylesheet" href="$css_path$assets/css/styles.css">
+    <title>$if(title)$$title$ - $endif$Bala Dengale</title>
+    $if(description)$<meta name="description" content="$description$">$endif$
 </head>
 <body>
-    $body$
+    <header>
+        <div class="container">
+            <h1>Bala Dengale</h1>
+            <nav>
+                <a href="$css_path$index.html" $if(active_home)$class="active"$endif$>Home</a>
+                <a href="$css_path$blog.html" $if(active_blog)$class="active"$endif$>Blog</a>
+                <a href="$css_path$about.html" $if(active_about)$class="active"$endif$>About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="content-wrapper">
+            $if(is_post)$
+            <article class="blog-post">
+                <header class="post-header">
+                    <h1>$title$</h1>
+                    <div class="meta">
+                        <time datetime="$date$">$date_pretty$</time>
+                        $if(category)$<span class="category">$category$</span>$endif$
+                    </div>
+                </header>
+                <div class="post-content">
+                    $body$
+                </div>
+                <footer class="post-footer">
+                    <div class="post-navigation">
+                        $if(prev_post)$<a href="$prev_post$" class="read-more">← Previous Post</a>$endif$
+                        $if(next_post)$<a href="$next_post$" class="read-more">Next Post →</a>$endif$
+                        $if(not_prev_post)$<a href="$css_path$blog.html" class="read-more">← Back to Blog</a>$endif$
+                    </div>
+                </footer>
+            </article>
+            $else$
+            $body$
+            $endif$
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Bala Dengale. All rights reserved.</p>
+            <nav>
+                <a href="$css_path$index.html">Home</a>
+                <a href="$css_path$blog.html">Blog</a>
+                <a href="$css_path$about.html">About</a>
+                <a href="https://github.com/baladengale" target="_blank">GitHub</a>
+            </nav>
+        </div>
+    </footer>
 </body>
 </html>

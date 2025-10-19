@@ -9,7 +9,7 @@ fi
 
 set -euo pipefail
 
-# Build script for baladengale-markdown-site
+# Build script for baladengale-markdown-site with Express framework
 
 # Resolve script location and define directories relative to the blog folder.
 # This allows the script to be executed from the repo root and still find the
@@ -155,7 +155,22 @@ convert_markdown() {
         if [ -f "$FOOTER_HTML" ]; then
             INCLUDES_OPTS+=("--include-after-body=$FOOTER_HTML")
         fi
-        pandoc "$input_file" -o "$output_file" --template="$TEMPLATES_DIR/layout.html" "${INCLUDES_OPTS[@]:-}"
+
+        # Add CSS path based on output location
+        local rel_path
+        rel_path=$(realpath --relative-to="$(dirname "$output_file")" "$OUTPUT_DIR")
+        if [ "$rel_path" = "." ]; then
+            INCLUDES_OPTS+=(-M css_path="./" -M active_blog=true)
+        else
+            INCLUDES_OPTS+=(-M css_path="../" -M active_blog=true)
+        fi
+
+        pandoc "$input_file" \
+            -o "$output_file" \
+            --template="$TEMPLATES_DIR/layout.html" \
+            --standalone \
+            --from markdown+yaml_metadata_block \
+            "${INCLUDES_OPTS[@]:-}"
 }
 
 # Main
