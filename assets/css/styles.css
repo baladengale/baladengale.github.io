@@ -77,15 +77,12 @@ header {
 
 /* Hero Section */
 .hero {
-    display: grid;
-    grid-template-columns: 1fr 320px;
-    gap: 4rem;
     padding: 4rem 2rem;
     max-width: var(--max-width);
 }
 
 .hero-text {
-    max-width: 640px;
+    max-width: 720px;
 }
 
 .hero-hi {
@@ -172,69 +169,6 @@ header {
     color: var(--color-border);
 }
 
-/* Hero Aside - Cards */
-.hero-aside {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
-.card {
-    background: #fafafa;
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    padding: 1.5rem;
-}
-
-.card h3 {
-    font-size: 0.9rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--color-text-light);
-    margin-bottom: 1rem;
-}
-
-.card ul {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-}
-
-.card li {
-    font-size: 0.95rem;
-}
-
-.card a {
-    color: var(--color-text);
-    text-decoration: none;
-    transition: color 0.2s ease;
-}
-
-.card a:hover {
-    color: var(--color-accent);
-}
-
-/* About Section */
-.about-compact {
-    padding: 3rem 2rem 4rem;
-    max-width: 720px;
-}
-
-.about-compact h2 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    color: var(--color-text);
-}
-
-.about-compact p {
-    font-size: 1.05rem;
-    line-height: 1.7;
-    color: var(--color-text-light);
-}
-
 /* Footer */
 footer {
     border-top: 1px solid var(--color-border);
@@ -242,7 +176,7 @@ footer {
     margin-top: 4rem;
 }
 
-.footer-grid {
+footer .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -252,6 +186,22 @@ footer {
 footer p {
     font-size: 0.9rem;
     color: var(--color-text-light);
+}
+
+footer nav {
+    display: flex;
+    gap: 1.5rem;
+}
+
+footer nav a {
+    color: var(--color-text-light);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.2s ease;
+}
+
+footer nav a:hover {
+    color: var(--color-text);
 }
 
 /* Content wrapper for blog/about pages */
@@ -303,16 +253,19 @@ footer p {
 
 /* Responsive */
 @media (max-width: 768px) {
-    .header-grid,
-    .footer-grid {
+    .header-grid {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    footer .container {
         flex-direction: column;
         align-items: flex-start;
         gap: 1rem;
     }
     
     .hero {
-        grid-template-columns: 1fr;
-        gap: 2rem;
         padding: 2rem 1.5rem;
     }
     
@@ -320,15 +273,7 @@ footer p {
         font-size: 2rem;
     }
     
-    .hero-aside {
-        order: -1;
-    }
-    
     .container {
         padding: 0 1.5rem;
-    }
-    
-    .about-compact {
-        padding: 2rem 1.5rem;
     }
 }

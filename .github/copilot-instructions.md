@@ -2,188 +2,131 @@
 
 ## Project Overview
 
-This is a personal website/blog for Bala Dengale built using a custom Markdown-to-HTML build system. The site is hosted on GitHub Pages and uses Pandoc for converting Markdown content to HTML.
+This is a simple static personal website for Bala Dengale (Lead System Engineer at Visa Worldwide). The site is hosted on GitHub Pages and consists of hand-crafted HTML files with a clean, modern CSS design inspired by minimal portfolio sites.
 
 ## Repository Structure
 
 ```
 ./
-├── blog/                    # Source code and content
-│   ├── content/            # Markdown content for main pages (index, about, blog)
-│   ├── posts/              # Blog post Markdown files (YYYY-MM-DD-title.md format)
-│   ├── templates/          # HTML templates and Markdown snippets
-│   │   ├── layout.html     # Main HTML layout template
-│   │   ├── header.md       # Header Markdown snippet
-│   │   └── footer.md       # Footer Markdown snippet
-│   ├── assets/             # CSS, images, and other static assets
-│   ├── scripts/
-│   │   ├── build.sh        # Main build script
-│   │   ├── server.js       # Local development server
-│   │   └── static.js       # Static site server
-│   └── package.json        # Node.js dependencies
-├── *.html                  # Generated HTML files (build output)
-├── assets/                 # Copied assets from blog/assets
+├── index.html              # Homepage with hero section
+├── about.html              # About page
+├── assets/                 # Static assets
+│   └── css/
+│       └── styles.css      # Main stylesheet
+├── blog/                   # Legacy build system (not in use)
 └── .github/
     └── workflows/          # GitHub Actions workflows
 ```
 
-## Build System
+## Site Architecture
 
-### Building the Site
-
-The build process converts Markdown files to HTML using Pandoc:
-
-```bash
-# From repository root:
-./blog/scripts/build.sh
-```
-
-Or using npm:
-
-```bash
-cd blog/
-npm run build
-```
-
-### Build Script Behavior
-
-- **Location**: `blog/scripts/build.sh`
-- **Input**: Markdown files in `blog/content/` and `blog/posts/`
-- **Output**: HTML files written to repository root (parent of `blog/`)
-- **Template**: Uses `blog/templates/layout.html` for HTML structure
-- **Dependencies**: Auto-installs `pandoc` and npm packages if missing
-- **Environment**: Can override output directory with `OUTPUT_DIR` environment variable
-
-### Development Server
-
-```bash
-cd blog/
-npm start
-```
-
-Runs an Express server for local development. Note: The `package.json` references `server.js`, but the actual file is located at `blog/scripts/server.js`.
+This is a **simple static website** with:
+- Hand-written HTML files (no build step required)
+- Single CSS file for styling (`assets/css/styles.css`)
+- External blog hosted at https://baladengale.blogspot.com/
+- GitHub Pages deployment from repository root
 
 ## Coding Conventions
 
-### File Naming
+### File Structure
 
-- **Blog posts**: Use `YYYY-MM-DD-title.md` format in `blog/posts/`
-- **Content pages**: Use lowercase with dashes (e.g., `about.md`)
-- **Generated HTML**: Matches source Markdown filename with `.html` extension
+- **HTML files**: Hand-written, located in repository root
+- **CSS**: Single file at `assets/css/styles.css`
+- **No build process**: Edit HTML/CSS directly
 
-### Markdown Content
+### HTML Structure
 
-- Use standard Markdown syntax
-- Blog posts should include frontmatter-style metadata at the top
-- Keep line lengths reasonable for readability
-- Use proper heading hierarchy (h1 -> h2 -> h3)
+- Semantic HTML5 elements
+- Clean, minimal markup
+- Consistent class naming conventions
+- All pages share common header/footer structure
 
-### HTML Templates
+### CSS Organization
 
-- Main template: `blog/templates/layout.html`
-- Uses Pandoc variables for content injection
-- Maintain consistent HTML structure and classes
-- CSS classes are defined in `blog/assets/css/styles.css`
+- CSS custom properties (variables) for theming
+- Mobile-first responsive design
+- Class-based selectors (avoid IDs for styling)
+- Organized by component/section
 
-### Bash Scripts
+### Design Principles
 
-- Use strict error handling: `set -euo pipefail`
-- Re-exec with bash if invoked with sh (for pipefail support)
-- Make scripts location-agnostic (use `$SCRIPT_DIR` patterns)
-- Document environment variables and defaults
-- Provide clear error messages
-
-### CSS
-
-- Main stylesheet: `blog/assets/css/styles.css`
-- Follow existing naming conventions
-- Use class-based selectors
-- Maintain responsive design principles
+- **Minimalist aesthetic**: Clean typography, ample whitespace
+- **Responsive**: Works on all screen sizes
+- **Fast loading**: No frameworks, minimal dependencies
+- **Accessible**: Semantic HTML, proper contrast ratios
 
 ## Dependencies
 
-### System Dependencies
+This is a dependency-free static website:
+- **No build tools required**
+- **No Node.js/npm needed** for production
+- Pure HTML, CSS, and optional JavaScript
 
-- **Pandoc**: Required for Markdown to HTML conversion
-- **Node.js & npm**: For dependency management and dev server
-- **Bash**: For build scripts
-
-### npm Dependencies
-
-See `blog/package.json`:
-- `express`: Development server
-- `ejs`, `markdown-it`, `markdown`: Markdown processing
-- `nodemon`: Development hot-reload (dev dependency)
+The `blog/` directory contains a legacy Markdown-based build system that is no longer in active use.
 
 ## Testing
 
-Currently, this is a static site generator without automated tests. When making changes:
+This is a static site. When making changes:
 
-1. Run the build script to ensure it completes without errors
-2. Check generated HTML files for correctness
-3. Verify the local server runs (`npm start`)
-4. Manually review the rendered pages in a browser
+1. Open HTML files directly in a browser to verify rendering
+2. Check responsive design at different screen sizes
+3. Validate HTML using W3C validator if needed
+4. Test all navigation links work correctly
 
 ## Common Tasks
 
-### Adding a New Blog Post
+### Adding/Updating Content
 
-1. Create a new Markdown file in `blog/posts/` with format `YYYY-MM-DD-title.md`
-2. Add post metadata (title, date, excerpt)
-3. Write content in Markdown
-4. Run build script to generate HTML
-5. Verify the post appears in `blog.html`
+1. Edit the HTML file directly (`index.html`, `about.html`, etc.)
+2. Modify content within the `<main>` section
+3. Keep header/footer consistent across pages
+4. Test in browser
 
 ### Modifying Site Styling
 
-1. Edit `blog/assets/css/styles.css`
-2. Run build script to copy assets
-3. Test changes locally with the dev server
+1. Edit `assets/css/styles.css`
+2. Use CSS custom properties (variables) defined in `:root`
+3. Test responsive behavior with browser dev tools
+4. Keep changes minimal and maintainable
 
-### Updating Page Layout
+### Adding a New Page
 
-1. Modify `blog/templates/layout.html`
-2. Run build script to regenerate all HTML files
-3. Verify changes across all pages
-
-### Modifying Build Process
-
-1. Edit `blog/scripts/build.sh`
-2. Test with various scenarios (fresh build, missing dependencies)
-3. Ensure script is idempotent and handles errors gracefully
+1. Create new HTML file in repository root
+2. Copy structure from existing page (`index.html`)
+3. Update navigation in header/footer of all pages
+4. Add content in the `<main>` section
+5. Test all navigation links
 
 ## GitHub Pages Deployment
 
-The site is deployed to GitHub Pages from the repository root. Generated HTML files should be committed to the repository. The `.github/workflows/static.yml` workflow may handle deployment automation.
+The site is deployed to GitHub Pages from the repository root. HTML files in the root directory are served directly. No build process is required for deployment.
 
 ## Best Practices
 
-1. **Never modify generated HTML files directly** - always edit source Markdown files
-2. **Test the build script** after any changes to templates or scripts
-3. **Keep dependencies up to date** but test thoroughly
-4. **Maintain backward compatibility** in the build process
-5. **Document any new environment variables** in this file
-6. **Follow existing code style** in scripts and HTML/CSS
-7. **Validate Markdown** before committing
-8. **Check file permissions** on shell scripts (should be executable)
+1. **Keep it simple** - hand-edit HTML/CSS directly, no build complexity
+2. **Test across devices** - verify responsive design works properly
+3. **Maintain consistency** - keep header/footer/nav structure uniform across pages
+4. **Follow existing code style** - match indentation and formatting
+5. **Validate HTML/CSS** - use W3C validators to catch errors
+6. **Optimize for speed** - minimize CSS, avoid unnecessary dependencies
+7. **Keep navigation updated** - ensure all internal links work correctly
 
 ## Security Considerations
 
-- The build script uses `sudo` for system package installation
-- Only run the build script in trusted environments
-- Review any new dependencies for security vulnerabilities
-- Keep npm packages updated for security patches
+- Keep external links using `target="_blank"` with `rel="noopener"` for security
+- Validate all user-facing content
+- Keep dependencies minimal (currently none for production)
 
 ## Getting Help
 
-- Project README: `blog/README.md`
-- Build script documentation: See comments in `blog/scripts/build.sh`
+- Project documentation: See this file and README files
 - Report issues on GitHub Issues
+- For questions about design: Reference the minimal, typography-focused approach
 
 ## Notes for Copilot
 
-- When generating Markdown content, follow the existing post structure
-- Shell scripts should handle both local and CI environments
-- Prefer minimal changes to the build system
+- When generating content, maintain the existing simple HTML structure
+- Prefer minimal changes that preserve the clean, modern aesthetic
 - Test generated HTML for proper structure and CSS class usage
-- Respect the existing template variable patterns used by Pandoc
+- Respect the existing design patterns and navigation structure
+- Keep external blog reference to https://baladengale.blogspot.com/
