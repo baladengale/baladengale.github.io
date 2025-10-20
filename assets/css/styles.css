@@ -257,14 +257,26 @@ footer nav a:hover {
 }
 
 /* Work Experience Styles */
+.intro-text {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: var(--color-text-light);
+    margin-bottom: 3rem;
+    max-width: 680px;
+}
+
 .work-experience {
     margin-top: 3rem;
 }
 
 .job {
-    margin-bottom: 4rem;
-    padding-bottom: 3rem;
-    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 3rem;
+    padding-bottom: 0;
+    border-bottom: none;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 3rem;
+    align-items: start;
 }
 
 .job:last-child {
@@ -273,74 +285,89 @@ footer nav a:hover {
 
 .job-header {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: flex-start;
-    margin-bottom: 0.5rem;
-    gap: 2rem;
+    margin-bottom: 0;
+    gap: 0.25rem;
 }
 
 .job-title-group {
-    flex: 1;
+    flex: none;
+    order: 2;
 }
 
 .job-title {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 600;
     margin-bottom: 0.25rem;
     color: var(--color-text);
+    line-height: 1.3;
 }
 
 .job-company {
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: var(--color-text-light);
     margin: 0;
+    font-weight: 400;
 }
 
 .job-duration {
-    text-align: right;
+    text-align: left;
+    order: 1;
+    margin-bottom: 0.5rem;
 }
 
 .job-date {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: var(--color-text-light);
-    font-weight: 500;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 .job-location {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: var(--color-text-light);
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
+    margin-top: 0.25rem;
+}
+
+.job-description {
+    padding-top: 0.25rem;
 }
 
 .job-description p {
     margin-bottom: 1rem;
-    font-size: 1.05rem;
+    font-size: 1rem;
     line-height: 1.7;
-    color: var(--color-text-light);
+    color: var(--color-text);
 }
 
 .job-description ul {
-    margin: 1.5rem 0;
-    padding-left: 1.5rem;
+    margin: 1rem 0 1.5rem 0;
+    padding-left: 1.25rem;
     list-style: disc;
 }
 
 .job-description li {
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
     line-height: 1.7;
-    color: var(--color-text-light);
+    color: var(--color-text);
+    font-size: 1rem;
 }
 
 .job-tech {
-    margin-top: 1.5rem;
+    margin-top: 1rem;
     padding-top: 1rem;
-    border-top: 1px solid #f5f5f5;
-    font-size: 0.95rem;
+    border-top: 1px solid var(--color-border);
+    font-size: 0.9rem;
     color: var(--color-text-light);
 }
 
 .job-tech strong {
     color: var(--color-text);
+    font-weight: 600;
 }
 
 .cta-section {
