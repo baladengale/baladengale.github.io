@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A survey of LLM research-agent architectures — what's deployed, what's benchmarked, and what the honest critiques say.">
+  <title>Autoresearch — Bala Dengale</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⌘</text></svg>">
+</head>
+<body>
+<header class="site-header">
+  <nav class="site-nav container">
+    <a class="brand" href="/">bala<span>.</span>dengale</a>
+    <ul><li><a href="/">Home</a></li><li><a href="/workex.html">Work Experience</a></li><li><a href="/blog/" class="active">Blog</a></li>
+      <li><a href="https://github.com/baladengale" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/baladengale" target="_blank" rel="noopener">LinkedIn</a></li></ul>
+  </nav>
+</header>
+
+<main>
+  <article>
+    <header class="post-header container">
+      <div class="meta">
+        <span>May 3, 2026</span><span class="dot" style="color:var(--border)">•</span>
+        <span>3 min read</span><span style="color:var(--border)">•</span>
+        <span>Bala Dengale</span>
+      </div>
+      <h1>Autoresearch</h1>
+      <p class="subtitle">A survey of LLM research-agent architectures — what's deployed, what's benchmarked, and what the honest critiques say.</p>
+      <div class="tag-row"><span class="tag-sm">ai</span><span class="tag-sm">agents</span><span class="tag-sm">research</span></div>
+    </header>
+    <div class="article container">
+      <div class="toc"><h4>Contents</h4><ul><li><a href="#1-the-autoresearch-pattern-architecturally">1. The Autoresearch Pattern, Architecturally</a></li><li><a href="#2-state-of-the-art-frameworks-and-products">2. State of the Art: Frameworks and Products</a></li><li><a href="#3-benchmarks-and-evaluation">3. Benchmarks and Evaluation</a></li><li><a href="#4-recent-research-directions">4. Recent Research Directions</a></li><li><a href="#5-honest-critiques">5. Honest Critiques</a></li><li><a href="#6-implications-for-agent-platform-builders">6. Implications for Agent-Platform Builders</a></li><li><a href="#gap-log">Gap Log</a></li></ul></div>
+      <p>Everyone is shipping "deep research" agents, but the architectures underneath are surprisingly different. This post maps the autoresearch pattern, the state of the art, the benchmarks, the critiques, and what it means if you build agent platforms for a living.</p>
+<h2 id="1-the-autoresearch-pattern-architecturally">1. The Autoresearch Pattern, Architecturally</h2>
+<p>Per 2025 surveys, LLM research agents share roughly four components — <strong>planning, retrieval, memory, generation</strong> — though terminology varies by paper. But the three deployed systems most people actually use differ meaningfully:</p>
+<table><thead><tr><th>System</th><th>Architecture</th></tr></thead><tbody><tr><td>OpenAI Deep Research</td><td>single-agent, trained end-to-end with RL</td></tr><tr><td>Anthropic Research</td><td>orchestrator–worker, 3–5 parallel sub-agents</td></tr><tr><td>Perplexity</td><td>hybrid iterative-retrieval loop, dynamic model selection</td></tr></tbody></table>
+<p>Microsoft's Copilot Researcher pairs OpenAI generation with a Claude critique stage — an early signal that <em>heterogeneous</em> agents are becoming a design default.</p>
+<p>The common primitives across all of them:</p>
+<ul><li><strong>Plan</strong> (and store the plan <em>outside</em> the context window)</li><li><strong>Retrieve iteratively</strong> (not one-shot)</li><li><strong>Draft</strong>, then <strong>verify</strong> — with explicit memory management</li></ul>
+<h2 id="2-state-of-the-art-frameworks-and-products">2. State of the Art: Frameworks and Products</h2>
+<p>The commercial category stabilized through 2025: OpenAI, Anthropic, Perplexity, Gemini, Manus, Grok and others all ship a research-agent product.</p>
+<p>On the open-source side, projects like smolagents' <em>Open Deep Research</em> trail the frontier by roughly <strong>12 points on GAIA</strong>. Two implementation patterns are hardening into defaults:</p>
+<ol><li>Plan storage outside the context window</li><li>MCP-style tool integration for retrieval</li></ol>
+<h2 id="3-benchmarks-and-evaluation">3. Benchmarks and Evaluation</h2>
+<ul><li><strong>BrowseComp</strong> shows a <strong>25× gap</strong> between tool-augmented base models and purpose-built agents.</li><li><strong>BrowseComp-Plus</strong> reveals that retriever choice dominates performance more than generator choice.</li><li><strong>GAIA</strong> scores are heavily scaffold-dependent — the same model with a better scaffold can gain ~30 points.</li><li><strong>DRACO</strong> scores 100 tasks across 10 domains.</li></ul>
+<p>The meta-finding across all of them: benchmarks score <em>final answers</em>, not <em>trajectories</em>. An agent that flails productively and one that glides both look identical on the leaderboard.</p>
+<h2 id="4-recent-research-directions">4. Recent Research Directions</h2>
+<p>Three threads stand out in the literature:</p>
+<ol><li><strong>Pipeline formalization</strong> — treating research agents as typed dataflow graphs rather than prompt chains.</li><li><strong>Optimization technique selection</strong> — knowing when to use prompting vs. fine-tuning vs. agentic RL for a given stage.</li><li><strong>Verification architecture</strong> — the field is moving away from <em>intrinsic self-correction</em> toward <strong>architectural diversity</strong>: a different model, not the same model talking to itself, does the checking.</li></ol>
+<h2 id="5-honest-critiques">5. Honest Critiques</h2>
+<p>This is the section that matters most:</p>
+<ul><li><strong>17–33% hallucination rates</strong> measured in legal-research AI tools</li><li>Fabricated citations have survived <strong>peer review at NeurIPS</strong></li><li>Self-critique can <em>drop</em> accuracy from 98% to 57% on high-confidence tasks</li><li>Benchmarks miss process-level failures entirely</li><li>Confident phrasing is <strong>34% more likely when models are wrong</strong> — the tone is inversely informative</li></ul>
+<h2 id="6-implications-for-agent-platform-builders">6. Implications for Agent-Platform Builders</h2>
+<p>If you're building the platform rather than the agent:</p>
+<ol><li><strong>Use different agents for verification.</strong> Same-model self-critique actively hurts on tasks the model is already confident about.</li><li><strong>Adopt MCP.</strong> Tool integration is converging there; fight the trend and you write glue code forever.</li><li><strong>Treat memory as a first-class primitive.</strong> Plan state outside the context window is becoming table stakes.</li><li><strong>Gate critique on confidence.</strong> Don't run verification unconditionally — spend it where the model is uncertain.</li></ol>
+<h2 id="gap-log">Gap Log</h2>
+<p>Being honest about what this survey lacks: no adoption metrics, no measurement of MCP's actual impact, thin sourcing in Section 4, and no single named prominent critic of the whole paradigm. All candidates for a follow-up.</p>
+    </div>
+    <div class="post-footer container">
+      <a class="btn btn-ghost" href="/blog/">← All posts</a>
+      <a class="btn btn-primary" href="mailto:dengalebr@gmail.com?subject=Re: Autoresearch">Discuss this post</a>
+    </div>
+  </article>
+</main>
+<footer class="site-footer">
+  <div class="container inner">
+    <div>© <span class="yr"></span> Bala Dengale · It's just you, me, and the code.</div>
+    <div class="links">
+      <a href="mailto:dengalebr@gmail.com">dengalebr@gmail.com</a>
+      <a href="https://github.com/baladengale" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/baladengale" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+</footer>
+<script>
+  document.querySelectorAll(".yr").forEach(e => e.textContent = new Date().getFullYear());
+</script>
+</body>
+</html>

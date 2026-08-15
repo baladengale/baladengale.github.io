@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: baladengale-site
+  namespace: baladengale
+  labels:
+    app.kubernetes.io/name: baladengale-site
+    app.kubernetes.io/part-of: baladengale-site
+  annotations:
+    # kind-infra registration: `make sync` in the kind repo turns this into an
+    # HTTPRoute (baladengale.internal) on the shared AgentGateway + cert SAN
+    kind-infra.dev/host: "baladengale"
+    kind-infra.dev/port: "8080"
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: baladengale-site
+  ports:
+    - name: http
+      port: 8080
+      targetPort: http

@@ -1,0 +1,48 @@
+[
+  {
+    "title": "The Hundred-Year Conversation: How We Spent a Century Learning to Speak Machine, and Then Machines Finally Learned to Speak Human",
+    "subtitle": "A century of interfaces, from mechanical levers to plain English \u2014 and what the reversal means for white-collar and blue-collar work.",
+    "date": "2026-07-19",
+    "tags": "ai, history, essay",
+    "draft": "false",
+    "slug": "hundred-year-conversation",
+    "tags_list": [
+      "ai",
+      "history",
+      "essay"
+    ],
+    "reading_minutes": 6,
+    "excerpt": "For a hundred years, using a computer meant learning its language \u2014 levers, punch"
+  },
+  {
+    "title": "Autoresearch",
+    "subtitle": "A survey of LLM research-agent architectures \u2014 what's deployed, what's benchmarked, and what the honest critiques say.",
+    "date": "2026-05-03",
+    "tags": "ai, agents, research",
+    "draft": "false",
+    "slug": "autoresearch",
+    "tags_list": [
+      "ai",
+      "agents",
+      "research"
+    ],
+    "reading_minutes": 3,
+    "excerpt": "Everyone is shipping \"deep research\" agents, but the architectures underneath"
+  },
+  {
+    "title": "Personal Algo/AI Trading Engine",
+    "subtitle": "What the field actually does, and what to build for a quick budge.",
+    "date": "2026-05-03",
+    "tags": "trading, ai, python, projects",
+    "draft": "false",
+    "slug": "personal-algo-trading-engine",
+    "tags_list": [
+      "trading",
+      "ai",
+      "python",
+      "projects"
+    ],
+    "reading_minutes": 4,
+    "excerpt": "A tour of the personal algo-trading landscape from 2015 to 2026, the broker API"
+  }
+]
