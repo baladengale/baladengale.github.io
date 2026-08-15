@@ -1,6 +1,6 @@
 [
   {
-    "title": "The Hundred-Year Conversation: How We Spent a Century Learning to Speak Machine, and Then Machines Finally Learned to Speak Human",
+    "title": "The Hundred-Year Conversation: A Century of Speaking Machine \u2014 Until Machines Spoke Human",
     "subtitle": "A century of interfaces, from mechanical levers to plain English \u2014 and what the reversal means for white-collar and blue-collar work.",
     "date": "2026-07-19",
     "tags": "ai, history, essay",
@@ -12,10 +12,10 @@
       "essay"
     ],
     "reading_minutes": 6,
-    "excerpt": "For a hundred years, using a computer meant learning its language \u2014 levers, punch"
+    "excerpt": "For a hundred years, using a computer meant learning its language \u2014 levers, punch cards, cursors, menus, apps. Then, in 2022, the direction of that conversation reversed. This is the story of how we\u2026"
   },
   {
-    "title": "Autoresearch",
+    "title": "Autoresearch: How Deep-Research AI Agents Are Actually Built",
     "subtitle": "A survey of LLM research-agent architectures \u2014 what's deployed, what's benchmarked, and what the honest critiques say.",
     "date": "2026-05-03",
     "tags": "ai, agents, research",
@@ -27,22 +27,21 @@
       "research"
     ],
     "reading_minutes": 3,
-    "excerpt": "Everyone is shipping \"deep research\" agents, but the architectures underneath"
+    "excerpt": "Everyone is shipping \"deep research\" agents, but the architectures underneath are surprisingly different. This post maps the autoresearch pattern, the state of the art, the benchmarks, the critiques\u2026"
   },
   {
-    "title": "Personal Algo/AI Trading Engine",
-    "subtitle": "What the field actually does, and what to build for a quick budge.",
-    "date": "2026-05-03",
-    "tags": "trading, ai, python, projects",
+    "title": "Evolution of Prompt Engineering to Context Engineering",
+    "subtitle": "How talking to LLMs shifted from \"ask better questions\" to \"engineer better context\" \u2014 and why that changes everything for agentic systems.",
+    "date": "2025-10-31",
+    "tags": "ai, agents, context-engineering",
     "draft": "false",
-    "slug": "personal-algo-trading-engine",
+    "slug": "evolution-of-prompt-engineering",
     "tags_list": [
-      "trading",
       "ai",
-      "python",
-      "projects"
+      "agents",
+      "context-engineering"
     ],
-    "reading_minutes": 4,
-    "excerpt": "A tour of the personal algo-trading landscape from 2015 to 2026, the broker API"
+    "reading_minutes": 2,
+    "excerpt": "Interacting with large language models used to be a craft of wording. Now, with million-token windows and AI assistants living inside Outlook, Teams and VS Code, the game has quietly moved from\u2026"
   }
 ]

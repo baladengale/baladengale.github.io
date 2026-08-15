@@ -5,21 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Work experience of Bala Dengale — 18 years across DevOps, Cloud, Datacenter and Virtualization.">
   <title>Work Experience — Bala Dengale</title>
-  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/style.css?v=2026.08.16b">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⌘</text></svg>">
+  <script>document.documentElement.setAttribute('data-theme', (function(){try{return localStorage.getItem('theme')||'dark'}catch(e){return 'dark'}})());</script>
 </head>
 <body>
 
 <header class="site-header">
   <nav class="site-nav container">
     <a class="brand" href="/">bala<span>.</span>dengale</a>
-    <ul>
-      <li><a href="/">Home</a></li>
-      <li><a href="/workex.html" class="active">Work Experience</a></li>
-      <li><a href="/blog/">Blog</a></li>
-      <li><a href="https://github.com/baladengale" target="_blank" rel="noopener">GitHub</a></li>
-      <li><a href="https://www.linkedin.com/in/baladengale" target="_blank" rel="noopener">LinkedIn</a></li>
-    </ul>
+    <div class="nav-right">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/workex.html" class="active">Work Experience</a></li>
+        <li><a href="/blog/">Blog</a></li>
+        <li><a href="/life.html">Life</a></li>
+        <li><a href="https://github.com/baladengale" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a href="https://www.linkedin.com/in/baladengale" target="_blank" rel="noopener">LinkedIn</a></li>
+      </ul>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light and dark theme" title="Toggle light / dark">
+        <span class="icon-sun">☀️</span><span class="icon-moon">🌙</span>
+      </button>
+    </div>
   </nav>
 </header>
 
@@ -27,7 +34,8 @@
   <section class="page-head">
     <h1>Work Experience</h1>
     <p>An informal summary of ~18 years building enterprise solutions across DevOps, Cloud,
-       Datacenter and Virtualization — from insurance apps on .NET to planet-scale container platforms.</p>
+       Datacenter and Virtualization — from insurance apps on .NET to planet-scale container
+       platforms, and now the platform layer for AI and Agentic AI systems.</p>
   </section>
 
   <section class="timeline" style="padding-bottom:72px;">
@@ -55,9 +63,10 @@
         <li>Architected the OMA and CloudSelect (Cloud Service Brokerage) solutions for multiple customers.</li>
         <li>Delivered demos, technical deep-dives and deployment architecture for pre-sales.</li>
         <li>Contributed to proposals, RFPs and RFIs for banks and telcos across APAC.</li>
+        <li>Integrated public and private clouds — AWS, Azure, SoftLayer, BMC CLM — with ITSM and enterprise toolchains.</li>
         <li>Managed projects from workshops through UAT, and shaped product roadmap discussions.</li>
       </ul>
-      <div class="tag-row"><span class="tag">CloudSelect</span><span class="tag">Cloud Service Brokerage</span><span class="tag">BMC CLM</span><span class="tag">BAO</span></div>
+      <div class="tag-row"><span class="tag">CloudSelect</span><span class="tag">Cloud Service Brokerage</span><span class="tag">AWS</span><span class="tag">Azure</span><span class="tag">BMC CLM</span><span class="tag">BAO</span></div>
     </div>
 
     <div class="job">
@@ -79,11 +88,12 @@
       <div class="where">BMC Software</div>
       <ul>
         <li>Implemented BMC products end-to-end at customer sites — Juniper, BNYM, Telstra, VISA.</li>
-        <li>Joined customer workshops as the technical expert.</li>
-        <li>Validated deployment architecture with Solution Architects (HA, failover, load balancing).</li>
+        <li>Led Database-as-a-Service on CLM + BMC BDA for BNYM — cut DB provisioning from <strong>1 month to 2 hours</strong>.</li>
+        <li>Automated Cisco VMDC 2.3 reference architecture (ASA, Citrix NetScaler, Catalyst) through CLM &amp; BNA at Synergy Cloud; integrated Infoblox DNS for Juniper.</li>
+        <li>Joined customer workshops as the technical expert; validated deployment architecture with Solution Architects (HA, failover, load balancing, DR).</li>
         <li>Participated in solution design with customers and documented design, implementation and test plans.</li>
       </ul>
-      <div class="tag-row"><span class="tag">BAO</span><span class="tag">BSA</span><span class="tag">CLM</span><span class="tag">BMC Remedy</span><span class="tag">High Availability</span></div>
+      <div class="tag-row"><span class="tag">BAO</span><span class="tag">BSA</span><span class="tag">CLM</span><span class="tag">BDA</span><span class="tag">BMC Remedy</span><span class="tag">Cisco VMDC</span><span class="tag">Infoblox</span></div>
     </div>
 
     <div class="job">
@@ -105,9 +115,8 @@
       <div class="where">BMC Software</div>
       <ul>
         <li>Datacenter automation consultant using BAO with ITIL frameworks across APAC and Europe.</li>
+        <li>Designed Telefonica's complete virtual-datacenter automation with Cisco — N7K, N1K, ASA, ACE and BGP — plus a custom IPAM solution using VLSM.</li>
         <li>Built custom automation with BAO, BNA and BMC Remedy.</li>
-        <li>Automated Cisco devices — N1K, N7K, ASA, ACE, VPN.</li>
-        <li>Developed an IPAM solution using VLSM for elastic IP addresses.</li>
       </ul>
       <div class="tag-row"><span class="tag">BAO</span><span class="tag">BNA</span><span class="tag">Remedy</span><span class="tag">Cisco N7K/N1K</span><span class="tag">ITIL</span><span class="tag">IPAM</span></div>
     </div>
@@ -118,12 +127,58 @@
       <div class="where">L&amp;T InfoTech</div>
       <ul>
         <li>Microsoft-stack developer for insurance applications.</li>
-        <li>Built insurance apps with C#.NET 2.0 &amp; SQL Server 2005; production support and enhancements.</li>
-        <li>Contributed to a Lead Management System on .NET 3.0.</li>
+        <li>Built insurance apps with C#.NET (2.0–3.5) &amp; SQL Server 2005; production support and enhancements.</li>
+        <li>Contributed to a Lead Management System on .NET 3.0, plus scripting with Ruby on Rails and VBA.</li>
       </ul>
-      <div class="tag-row"><span class="tag">C#.NET</span><span class="tag">SQL Server</span><span class="tag">ASP</span><span class="tag">VB.NET</span><span class="tag">Insurance Domain</span></div>
+      <div class="tag-row"><span class="tag">C#.NET</span><span class="tag">SQL Server</span><span class="tag">ASP</span><span class="tag">VB.NET</span><span class="tag">Ruby on Rails</span><span class="tag">Insurance Domain</span></div>
     </div>
 
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>Certifications</h2>
+      <div class="skill-grid">
+        <div class="skill-card">
+          <h3>Kubernetes</h3>
+          <p>CKA — Certified Kubernetes Administrator (CNCF, 2020).</p>
+          <div class="tag-row"><span class="tag">CNCF</span><span class="tag">Kubernetes</span></div>
+        </div>
+        <div class="skill-card">
+          <h3>GitOps</h3>
+          <p>GitOps Certified for Argo (Codefresh, 2022).</p>
+          <div class="tag-row"><span class="tag">ArgoCD</span><span class="tag">GitOps</span></div>
+        </div>
+        <div class="skill-card">
+          <h3>BMC Platform</h3>
+          <p>BMC Atrium Orchestrator Expert · BMC Certified Professional (CLM).</p>
+          <div class="tag-row"><span class="tag">BAO</span><span class="tag">CLM</span></div>
+        </div>
+        <div class="skill-card">
+          <h3>Foundations</h3>
+          <p>VMware VCP · ITIL v3 · MCTS SQL Server 2005 · MCTS Web Development 2.0.</p>
+          <div class="tag-row"><span class="tag">VMware VCP</span><span class="tag">ITIL</span><span class="tag">MCTS</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>Education</h2>
+      <div class="skill-grid">
+        <div class="skill-card">
+          <h3>Specialist Diploma in AI Solutions Development</h3>
+          <p>Temasek Polytechnic, Singapore — completed 2025. Specializations across cloud-based machine learning and applied AI solution development.</p>
+          <div class="tag-row"><span class="tag">AI Solutions</span><span class="tag">Cloud ML</span><span class="tag">Applied AI</span></div>
+        </div>
+        <div class="skill-card">
+          <h3>Bachelor of Engineering, Computer Engineering</h3>
+          <p>University of Pune, India — 2007, First Class with Distinction.</p>
+          <div class="tag-row"><span class="tag">Computer Engineering</span><span class="tag">Pune University</span></div>
+        </div>
+      </div>
+    </div>
   </section>
 </main>
 
@@ -134,10 +189,11 @@
       <a href="mailto:dengalebr@gmail.com">dengalebr@gmail.com</a>
       <a href="https://github.com/baladengale" target="_blank" rel="noopener">GitHub</a>
       <a href="https://www.linkedin.com/in/baladengale" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://www.facebook.com/balasaheb.dengale" target="_blank" rel="noopener">Facebook</a>
     </div>
   </div>
 </footer>
 
-<script src="/assets/js/main.js"></script>
+<script src="/assets/js/main.js?v=2026.08.16b"></script>
 </body>
 </html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="How talking to LLMs shifted from "ask better questions" to "engineer better context" — and why that changes everything for agentic systems.">
+  <title>Evolution of Prompt Engineering to Context Engineering — Bala Dengale</title>
+  <link rel="stylesheet" href="/assets/css/style.css?v=2026.08.16b">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⌘</text></svg>">
+  <script>document.documentElement.setAttribute('data-theme',(function(){try{return localStorage.getItem('theme')||'dark'}catch(e){return 'dark'}})());</script>
+</head>
+<body>
+<header class="site-header">
+  <nav class="site-nav container">
+    <a class="brand" href="/">bala<span>.</span>dengale</a>
+    <div class="nav-right">
+      <ul><li><a href="/">Home</a></li><li><a href="/workex.html">Work Experience</a></li><li><a href="/blog/" class="active">Blog</a></li><li><a href="/life.html">Life</a></li>
+      <li><a href="https://github.com/baladengale" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/baladengale" target="_blank" rel="noopener">LinkedIn</a></li></ul>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light and dark theme" title="Toggle light / dark">
+        <span class="icon-sun">☀️</span><span class="icon-moon">🌙</span>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <article>
+    <header class="post-header container">
+      <div class="meta">
+        <span>October 31, 2025</span><span class="dot" style="color:var(--border)">•</span>
+        <span>2 min read</span><span style="color:var(--border)">•</span>
+        <span>Bala Dengale</span>
+      </div>
+      <h1>Evolution of Prompt Engineering to Context Engineering</h1>
+      <p class="subtitle">How talking to LLMs shifted from "ask better questions" to "engineer better context" — and why that changes everything for agentic systems.</p>
+      <div class="tag-row"><span class="tag-sm">ai</span><span class="tag-sm">agents</span><span class="tag-sm">context-engineering</span></div>
+    </header>
+    <div class="article container">
+      <div class="toc"><h4>Contents</h4><ul><li><a href="#the-prompt-engineering-era">The prompt engineering era</a></li><li><a href="#the-system-prompt-revolution">The system prompt revolution</a></li><li><a href="#the-token-limit-challenge">The token limit challenge</a></li><li><a href="#from-context-windows-to-context-engineering">From context windows to context engineering</a></li><li><a href="#the-path-forward">The path forward</a></li></ul></div>
+      <p>Interacting with large language models used to be a craft of wording. Now, with million-token windows and AI assistants living inside Outlook, Teams and VS Code, the game has quietly moved from <em>prompt engineering</em> to <em>context engineering</em>.</p>
+<p>This post traces that shift — first published on my <a href="https://baladengale.blogspot.com/2025/10/evolution-of-prompt-engineering-to.html" target="_blank" rel="noopener">blog</a>.</p>
+<h2 id="the-prompt-engineering-era">The prompt engineering era</h2>
+<p>Early on, the dominant belief was that the right prompt could accomplish anything. The user was responsible for refining the question, and iterating on prompts — even asking the model to improve its own prompt — became a practiced art.</p>
+<p>The limitation was always the same: the model only knows what you put in front of it, and you were competing for a small window of attention.</p>
+<h2 id="the-system-prompt-revolution">The system prompt revolution</h2>
+<p>System prompts changed the shape of the game. Instead of hand-crafting every turn, you could pre-configure the model's behaviour by injecting metadata, instructions and context alongside every request.</p>
+<p>Tools like GitHub Copilot, Cline and Aider automated the generation of sophisticated system prompts — but introduced a new constraint: <strong>token limits</strong>.</p>
+<h2 id="the-token-limit-challenge">The token limit challenge</h2>
+<p>Earlier models capped out around 128k–200k tokens, which forced careful prioritisation of what context actually made the cut. Then the problem began to solve itself: modern models now support 200k to 1 million token contexts, and experimental models are pushing toward 10 million — over a thousand pages of text.</p>
+<p>More room, it turns out, is not the same as better answers.</p>
+<h2 id="from-context-windows-to-context-engineering">From context windows to context engineering</h2>
+<p>Larger windows alone don't guarantee better results. Context engineering shifts the focus from <em>how to ask</em> to <em>how to structure and organise information</em>. In practice that means a system that:</p>
+<ul><li>retrieves relevant information at the right time</li><li>structures context hierarchically by importance</li><li>manages memory strategically across interactions</li><li>prunes outdated or irrelevant information to reduce noise</li><li>balances breadth and depth without overwhelming the model</li></ul>
+<p>Tools like Copilot, Cline and Aider already do much of this behind the scenes, weaving together conversation history, code snippets, system prompts and user intent into a focused context window.</p>
+<h2 id="the-path-forward">The path forward</h2>
+<p>The next frontier combines larger windows, smarter retrieval, better cross-session memory, and richer tool integration — so that <strong>agents intelligently decide what data and operations they need</strong>, rather than being handed a fixed context.</p>
+<p>That's the part that matters for agentic systems. The decisive factor isn't model size or token count. It's context quality.</p>
+<p>The best AI won't be the one with the biggest model. It will be the one with the most carefully engineered context.</p>
+<hr>
+<p><em>Thanks for reading — ping me at dengalebr@gmail.com to discuss.</em></p>
+    </div>
+    <div class="post-footer container">
+      <a class="btn btn-ghost" href="/blog/">← All posts</a>
+      <a class="btn btn-primary" href="mailto:dengalebr@gmail.com?subject=Re: Evolution of Prompt Engineering to Context Engineering">Discuss this post</a>
+    </div>
+  </article>
+</main>
+<footer class="site-footer">
+  <div class="container inner">
+    <div>© <span class="yr"></span> Bala Dengale · It's just you, me, and the code.</div>
+    <div class="links">
+      <a href="mailto:dengalebr@gmail.com">dengalebr@gmail.com</a>
+      <a href="https://github.com/baladengale" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/baladengale" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://www.facebook.com/balasaheb.dengale" target="_blank" rel="noopener">Facebook</a>
+    </div>
+  </div>
+</footer>
+<script src="/assets/js/main.js?v=2026.08.16b"></script>
+</body>
+</html>

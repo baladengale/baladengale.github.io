@@ -192,7 +192,7 @@ def build_toc(html: str) -> str:
 # ---------------------------------------------------------------------------
 
 def nav(active: str) -> str:
-    links = [("Home", "/"), ("Work Experience", "/workex.html"), ("Blog", "/blog/")]
+    links = [("Home", "/"), ("Work Experience", "/workex.html"), ("Blog", "/blog/"), ("Life", "/life.html")]
     items = "".join(
         f'<li><a href="{href}"{" class=\"active\"" if label == active else ""}>{label}</a></li>'
         for label, href in links
@@ -200,6 +200,11 @@ def nav(active: str) -> str:
     return items + """
       <li><a href="https://github.com/baladengale" target="_blank" rel="noopener">GitHub</a></li>
       <li><a href="https://www.linkedin.com/in/baladengale" target="_blank" rel="noopener">LinkedIn</a></li>"""
+
+
+THEME_SCRIPT = ("<script>document.documentElement.setAttribute('data-theme',"
+                "(function(){try{return localStorage.getItem('theme')||'dark'}"
+                "catch(e){return 'dark'}})());</script>")
 
 
 def page(title: str, active: str, body: str, description: str = "") -> str:
@@ -210,14 +215,20 @@ def page(title: str, active: str, body: str, description: str = "") -> str:
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="{description}">
   <title>{title}</title>
-  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/style.css?v=2026.08.16b">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⌘</text></svg>">
+  {THEME_SCRIPT}
 </head>
 <body>
 <header class="site-header">
   <nav class="site-nav container">
     <a class="brand" href="/">bala<span>.</span>dengale</a>
-    <ul>{nav(active)}</ul>
+    <div class="nav-right">
+      <ul>{nav(active)}</ul>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light and dark theme" title="Toggle light / dark">
+        <span class="icon-sun">☀️</span><span class="icon-moon">🌙</span>
+      </button>
+    </div>
   </nav>
 </header>
 {body}
@@ -228,12 +239,11 @@ def page(title: str, active: str, body: str, description: str = "") -> str:
       <a href="mailto:dengalebr@gmail.com">dengalebr@gmail.com</a>
       <a href="https://github.com/baladengale" target="_blank" rel="noopener">GitHub</a>
       <a href="https://www.linkedin.com/in/baladengale" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://www.facebook.com/balasaheb.dengale" target="_blank" rel="noopener">Facebook</a>
     </div>
   </div>
 </footer>
-<script>
-  document.querySelectorAll(".yr").forEach(e => e.textContent = new Date().getFullYear());
-</script>
+<script src="/assets/js/main.js?v=2026.08.16b"></script>
 </body>
 </html>"""
 
@@ -315,10 +325,24 @@ def main():
         out_dir = BLOG_DIR / meta["slug"]
         out_dir.mkdir(parents=True, exist_ok=True)
         (out_dir / "index.html").write_text(post_page(meta, html), encoding="utf-8")
-        # excerpt: first non-heading, non-empty paragraph of the body text
-        excerpt = next((l.strip() for l in body.splitlines()
-                        if l.strip() and not l.startswith(("#", ">", "```", "|", "- ", "1."))), "")
-        meta["excerpt"] = (excerpt[:220] + "…") if len(excerpt) > 220 else excerpt
+        # excerpt: first non-heading, non-list paragraph of the body (joined
+        # across wrapped lines), truncated at a word boundary
+        para, collecting = [], False
+        for l in body.splitlines():
+            stripped = l.strip()
+            if not stripped:
+                if collecting: break
+                continue
+            if stripped.startswith(("#", ">", "```", "|", "- ", "* ", "1.")):
+                if collecting: break
+                continue
+            collecting = True
+            para.append(stripped)
+        excerpt = " ".join(para)
+        if len(excerpt) > 200:
+            cut = excerpt[:200].rsplit(" ", 1)[0]
+            excerpt = re.sub(r"[.,;:—-]+$", "", cut) + "…"
+        meta["excerpt"] = excerpt
         posts.append(meta)
         print(f"  built: blog/{meta['slug']}/index.html  ({meta['title']})")
 

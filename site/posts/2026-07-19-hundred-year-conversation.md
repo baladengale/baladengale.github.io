@@ -1,5 +1,5 @@
 ---
-title: "The Hundred-Year Conversation: How We Spent a Century Learning to Speak Machine, and Then Machines Finally Learned to Speak Human"
+title: "The Hundred-Year Conversation: A Century of Speaking Machine — Until Machines Spoke Human"
 subtitle: A century of interfaces, from mechanical levers to plain English — and what the reversal means for white-collar and blue-collar work.
 date: 2026-07-19
 tags: ai, history, essay

@@ -1,5 +1,5 @@
 ---
-title: "Autoresearch"
+title: "Autoresearch: How Deep-Research AI Agents Are Actually Built"
 subtitle: A survey of LLM research-agent architectures — what's deployed, what's benchmarked, and what the honest critiques say.
 date: 2026-05-03
 tags: ai, agents, research

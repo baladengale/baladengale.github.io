@@ -26,6 +26,12 @@ kubectl apply -f "${REPO_ROOT}/deploy/namespace.yaml"
 kubectl apply -f "${REPO_ROOT}/deploy/deployment.yaml"
 kubectl apply -f "${REPO_ROOT}/deploy/service.yaml"
 
+# The image tag is always :latest and is side-loaded into kind with
+# imagePullPolicy: IfNotPresent, so `kubectl apply` alone won't detect a
+# content-only change. Force a restart to pick up the freshly-built image.
+echo "==> Restarting rollout (pick up new :latest image)"
+kubectl -n baladengale rollout restart deploy/baladengale-site
+
 echo "==> Waiting for rollout"
 kubectl -n baladengale rollout status deploy/baladengale-site --timeout=120s
 

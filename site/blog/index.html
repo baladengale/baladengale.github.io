@@ -5,16 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="AI and I — the blog of Bala Dengale">
   <title>Blog — Bala Dengale</title>
-  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/style.css?v=2026.08.16b">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⌘</text></svg>">
+  <script>document.documentElement.setAttribute('data-theme',(function(){try{return localStorage.getItem('theme')||'dark'}catch(e){return 'dark'}})());</script>
 </head>
 <body>
 <header class="site-header">
   <nav class="site-nav container">
     <a class="brand" href="/">bala<span>.</span>dengale</a>
-    <ul><li><a href="/">Home</a></li><li><a href="/workex.html">Work Experience</a></li><li><a href="/blog/" class="active">Blog</a></li>
+    <div class="nav-right">
+      <ul><li><a href="/">Home</a></li><li><a href="/workex.html">Work Experience</a></li><li><a href="/blog/" class="active">Blog</a></li><li><a href="/life.html">Life</a></li>
       <li><a href="https://github.com/baladengale" target="_blank" rel="noopener">GitHub</a></li>
       <li><a href="https://www.linkedin.com/in/baladengale" target="_blank" rel="noopener">LinkedIn</a></li></ul>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light and dark theme" title="Toggle light / dark">
+        <span class="icon-sun">☀️</span><span class="icon-moon">🌙</span>
+      </button>
+    </div>
   </nav>
 </header>
 
@@ -27,18 +33,18 @@
   <section class="post-list">
       <a class="post-card" href="/blog/hundred-year-conversation/">
         <div class="meta"><span>Jul 19, 2026</span><span class="dot">•</span><span>6 min read</span><span class="dot">•</span><span class="tag-sm">ai</span><span class="tag-sm">history</span><span class="tag-sm">essay</span></div>
-        <h2>The Hundred-Year Conversation: How We Spent a Century Learning to Speak Machine, and Then Machines Finally Learned to Speak Human</h2>
-        <p class="excerpt">For a hundred years, using a computer meant learning its language — levers, punch</p>
+        <h2>The Hundred-Year Conversation: A Century of Speaking Machine — Until Machines Spoke Human</h2>
+        <p class="excerpt">For a hundred years, using a computer meant learning its language — levers, punch cards, cursors, menus, apps. Then, in 2022, the direction of that conversation reversed. This is the story of how we…</p>
       </a>
       <a class="post-card" href="/blog/autoresearch/">
         <div class="meta"><span>May 3, 2026</span><span class="dot">•</span><span>3 min read</span><span class="dot">•</span><span class="tag-sm">ai</span><span class="tag-sm">agents</span><span class="tag-sm">research</span></div>
-        <h2>Autoresearch</h2>
-        <p class="excerpt">Everyone is shipping "deep research" agents, but the architectures underneath</p>
+        <h2>Autoresearch: How Deep-Research AI Agents Are Actually Built</h2>
+        <p class="excerpt">Everyone is shipping "deep research" agents, but the architectures underneath are surprisingly different. This post maps the autoresearch pattern, the state of the art, the benchmarks, the critiques…</p>
       </a>
-      <a class="post-card" href="/blog/personal-algo-trading-engine/">
-        <div class="meta"><span>May 3, 2026</span><span class="dot">•</span><span>4 min read</span><span class="dot">•</span><span class="tag-sm">trading</span><span class="tag-sm">ai</span><span class="tag-sm">python</span><span class="tag-sm">projects</span></div>
-        <h2>Personal Algo/AI Trading Engine</h2>
-        <p class="excerpt">A tour of the personal algo-trading landscape from 2015 to 2026, the broker API</p>
+      <a class="post-card" href="/blog/evolution-of-prompt-engineering/">
+        <div class="meta"><span>Oct 31, 2025</span><span class="dot">•</span><span>2 min read</span><span class="dot">•</span><span class="tag-sm">ai</span><span class="tag-sm">agents</span><span class="tag-sm">context-engineering</span></div>
+        <h2>Evolution of Prompt Engineering to Context Engineering</h2>
+        <p class="excerpt">Interacting with large language models used to be a craft of wording. Now, with million-token windows and AI assistants living inside Outlook, Teams and VS Code, the game has quietly moved from…</p>
       </a></section>
 </main>
 <footer class="site-footer">
@@ -48,11 +54,10 @@
       <a href="mailto:dengalebr@gmail.com">dengalebr@gmail.com</a>
       <a href="https://github.com/baladengale" target="_blank" rel="noopener">GitHub</a>
       <a href="https://www.linkedin.com/in/baladengale" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://www.facebook.com/balasaheb.dengale" target="_blank" rel="noopener">Facebook</a>
     </div>
   </div>
 </footer>
-<script>
-  document.querySelectorAll(".yr").forEach(e => e.textContent = new Date().getFullYear());
-</script>
+<script src="/assets/js/main.js?v=2026.08.16b"></script>
 </body>
 </html>
