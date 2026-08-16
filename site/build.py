@@ -215,7 +215,7 @@ def page(title: str, active: str, body: str, description: str = "") -> str:
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="{description}">
   <title>{title}</title>
-  <link rel="stylesheet" href="/assets/css/style.css?v=2026.08.16b">
+  <link rel="stylesheet" href="/assets/css/style.css?v=2026.08.16c">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⌘</text></svg>">
   {THEME_SCRIPT}
 </head>
@@ -243,7 +243,7 @@ def page(title: str, active: str, body: str, description: str = "") -> str:
     </div>
   </div>
 </footer>
-<script src="/assets/js/main.js?v=2026.08.16b"></script>
+<script src="/assets/js/main.js?v=2026.08.16c"></script>
 </body>
 </html>"""
 
@@ -302,7 +302,8 @@ def blog_index_page(posts: list) -> str:
   <section class="page-head">
     <h1>AI and I</h1>
     <p>It's just you, me, and the code. My personal experiments with the future of tech —
-       migrated from <a href="https://baladengale.blogspot.com">baladengale.blogspot.com</a> and continued here.</p>
+       migrated from <a href="https://baladengale.blogspot.com">baladengale.blogspot.com</a> and continued here.
+       Written by a human; occasionally fact-checked by agents I built.</p>
   </section>
   <section class="post-list">{''.join(cards)}</section>
 </main>"""
