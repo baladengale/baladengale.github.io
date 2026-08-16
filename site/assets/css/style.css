@@ -431,7 +431,7 @@ img { max-width: 100%; border-radius: var(--radius); }
    -------------------------------------------------------------------------- */
 .page-head { padding: 64px 0 16px; }
 .page-head h1 { font-size: 2.3rem; letter-spacing: -0.02em; margin-bottom: 8px; }
-.page-head p { color: var(--text-dim); max-width: 620px; }
+.page-head p { color: var(--text-dim); max-width: none; }
 
 .post-list { display: flex; flex-direction: column; gap: 18px; padding: 32px 0 72px; }
 .post-card {
