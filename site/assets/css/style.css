@@ -145,7 +145,9 @@ img { max-width: 100%; border-radius: var(--radius); }
 /* --------------------------------------------------------------------------
    Hero (home)
    -------------------------------------------------------------------------- */
-.hero { padding: 88px 0 64px; }
+/* longhand on purpose: side gutters come from .container so the hero
+   never touches the screen edge (padding shorthand would zero them) */
+.hero { padding-top: 88px; padding-bottom: 64px; }
 .hero-grid > *, .skill-grid > *, .facts > *, .flagship-grid > * { min-width: 0; }
 
 /* status pill (hero) */
@@ -504,7 +506,8 @@ img { max-width: 100%; border-radius: var(--radius); }
 /* --------------------------------------------------------------------------
    Blog post (rich content typography)
    -------------------------------------------------------------------------- */
-.post-header { padding: 64px 0 4px; max-width: 760px; margin: 0 auto; }
+/* longhand: side gutters come from .container */
+.post-header { padding-top: 64px; padding-bottom: 4px; max-width: 760px; margin: 0 auto; }
 .post-header .meta {
   display: flex; gap: 14px; align-items: center;
   font-family: var(--mono); font-size: 0.78rem;
@@ -818,7 +821,7 @@ img { max-width: 100%; border-radius: var(--radius); }
    and inner padding are reasserted so nothing flattens out on small
    viewports (fix: cards losing their edges on mobile). */
 @media (max-width: 768px) {
-  .container { padding: 0 24px; }
+  .container { padding: 0 28px; }
   main { overflow-x: hidden; }
 
   /* hamburger menu: links collapse into a panel under the header */
@@ -849,7 +852,7 @@ img { max-width: 100%; border-radius: var(--radius); }
   .site-nav ul li:last-child a { border-bottom: none; }
   .site-nav ul a.active { border-bottom-color: transparent; border-bottom-width: 1px; }
 
-  .hero { padding: 64px 0 48px; }
+  .hero { padding-top: 64px; padding-bottom: 48px; }
   .hero h1 { font-size: clamp(1.85rem, 7vw, 2.25rem); line-height: 1.22; margin-bottom: 16px; }
   .hero p.lede { font-size: 1rem; line-height: 1.72; margin-bottom: 26px; }
   .hero .cta-row { gap: 10px; }
@@ -893,5 +896,8 @@ img { max-width: 100%; border-radius: var(--radius); }
   .family { grid-template-columns: 1fr; }
   .gallery { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); grid-auto-rows: 130px; }
   .gallery figure.feature { grid-column: span 2; grid-row: span 2; }
-  .article { font-size: 1rem; }
+  .article { font-size: 1rem; padding: 36px 28px 84px; }
+  .post-footer { padding: 28px 28px 88px; }
+  .page-head p { line-height: 1.75; }
+  .hero p.lede { line-height: 1.75; }
 }
