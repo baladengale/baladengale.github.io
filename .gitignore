@@ -1,0 +1,8 @@
+# macOS
+.DS_Store
+
+# source photos — curated copies live in site/assets/img/, originals stay local
+photos/
+
+# python
+__pycache__/

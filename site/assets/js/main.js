@@ -25,6 +25,28 @@
       });
     }
 
+    // mobile hamburger menu
+    const header = document.querySelector(".site-header");
+    const navToggle = document.getElementById("nav-toggle");
+    if (header && navToggle) {
+      const setOpen = (open) => {
+        header.classList.toggle("nav-open", open);
+        navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+      };
+      navToggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        setOpen(!header.classList.contains("nav-open"));
+      });
+      header.querySelectorAll(".site-nav ul a").forEach(a =>
+        a.addEventListener("click", () => setOpen(false)));
+      document.addEventListener("keydown", e => {
+        if (e.key === "Escape") setOpen(false);
+      });
+      document.addEventListener("click", e => {
+        if (header.classList.contains("nav-open") && !header.contains(e.target)) setOpen(false);
+      });
+    }
+
     // gallery lightbox (life page)
     const lightbox = document.querySelector(".lightbox");
     if (lightbox) {
