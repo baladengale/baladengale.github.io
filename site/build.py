@@ -215,20 +215,20 @@ def page(title: str, active: str, body: str, description: str = "") -> str:
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="{description}">
   <title>{title}</title>
-  <link rel="stylesheet" href="/assets/css/style.css?v=2026.08.16e">
+  <link rel="stylesheet" href="/assets/css/style.css?v=2026.08.16f">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⌘</text></svg>">
   {THEME_SCRIPT}
 </head>
 <body>
 <header class="site-header">
   <nav class="site-nav container">
+  <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
     <a class="brand" href="/"><span class="brand-name">bala<span class="dot">.</span>dengale</span><span class="brand-desc">Agentic AI · Kubernetes · Platform Engineering</span></a>
     <div class="nav-right">
       <ul>{nav(active)}</ul>
       <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light and dark theme" title="Toggle light / dark">
         <span class="icon-sun">☀️</span><span class="icon-moon">🌙</span>
       </button>
-      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
   </nav>
 </header>
@@ -244,7 +244,7 @@ def page(title: str, active: str, body: str, description: str = "") -> str:
     </div>
   </div>
 </footer>
-<script src="/assets/js/main.js?v=2026.08.16e"></script>
+<script src="/assets/js/main.js?v=2026.08.16f"></script>
 </body>
 </html>"""
 
