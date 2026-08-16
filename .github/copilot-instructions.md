@@ -2,131 +2,84 @@
 
 ## Project Overview
 
-This is a simple static personal website for Bala Dengale (Lead System Engineer at Visa Worldwide). The site is hosted on GitHub Pages and consists of hand-crafted HTML files with a clean, modern CSS design inspired by minimal portfolio sites.
+Personal website + blog of Bala Dengale (Lead Systems Engineer & Platform Architect, Visa).
+Agentic AI platforms, large-scale Kubernetes, and enterprise automation. A zero-dependency
+static site: hand-written HTML/CSS/JS, with a plain-Markdown blog rendered by a stdlib-only
+Python builder. Deploys to GitHub Pages from the `site/` directory.
+
+Canonical docs: [`README.md`](../README.md) and [`spec/`](../spec/) (site-spec, architecture,
+guidelines). When those disagree with this file, trust them.
 
 ## Repository Structure
 
 ```
 ./
-├── index.html              # Homepage with hero section
-├── about.html              # About page
-├── assets/                 # Static assets
-│   └── css/
-│       └── styles.css      # Main stylesheet
-├── blog/                   # Legacy build system (not in use)
-└── .github/
-    └── workflows/          # GitHub Actions workflows
+├── site/                        # the entire website (deploy root)
+│   ├── index.html               # home
+│   ├── workex.html              # work experience
+│   ├── life.html                # "Beyond the terminal"
+│   ├── build.py                 # blog builder: posts/*.md → blog/*.html + posts.json
+│   ├── posts/                   # blog source of truth (_TEMPLATE.md = start here)
+│   ├── blog/                    # GENERATED output — do not hand-edit
+│   └── assets/                  # css/style.css, js/main.js, img/*
+├── spec/                        # site-spec, architecture, guidelines
+├── deploy/                      # Kubernetes + nginx for container/kind deploys
+├── Dockerfile                   # python build → nginx serve
+├── .github/workflows/static.yml # Pages deploy + is-a.dev mirror sync
+└── photos/                      # local-only originals (gitignored)
 ```
 
 ## Site Architecture
 
-This is a **simple static website** with:
-- Hand-written HTML files (no build step required)
-- Single CSS file for styling (`assets/css/styles.css`)
-- External blog hosted at https://baladengale.blogspot.com/
-- GitHub Pages deployment from repository root
+- **Static site** — no frameworks, no npm, no client-side build step.
+- **Styling** — single stylesheet `site/assets/css/style.css`; design tokens as CSS
+  custom properties in `:root` (dark) and `:root[data-theme="light"]`.
+- **Blog** — `site/posts/*.md` are the source of truth; run `python3 site/build.py`
+  to regenerate `site/blog/` (pages, index, `posts.json`). Never edit `blog/` by hand.
+- **Deploy** — push to `main` → GitHub Actions builds and deploys `site/` to GitHub Pages,
+  and mirrors the built site to the `baladengale-redirect` repo (serves `baladengale.is-a.dev`).
 
 ## Coding Conventions
 
-### File Structure
-
-- **HTML files**: Hand-written, located in repository root
-- **CSS**: Single file at `assets/css/styles.css`
-- **No build process**: Edit HTML/CSS directly
-
-### HTML Structure
-
-- Semantic HTML5 elements
-- Clean, minimal markup
-- Consistent class naming conventions
-- All pages share common header/footer structure
-
-### CSS Organization
-
-- CSS custom properties (variables) for theming
-- Mobile-first responsive design
-- Class-based selectors (avoid IDs for styling)
-- Organized by component/section
-
-### Design Principles
-
-- **Minimalist aesthetic**: Clean typography, ample whitespace
-- **Responsive**: Works on all screen sizes
-- **Fast loading**: No frameworks, minimal dependencies
-- **Accessible**: Semantic HTML, proper contrast ratios
-
-## Dependencies
-
-This is a dependency-free static website:
-- **No build tools required**
-- **No Node.js/npm needed** for production
-- Pure HTML, CSS, and optional JavaScript
-
-The `blog/` directory contains a legacy Markdown-based build system that is no longer in active use.
-
-## Testing
-
-This is a static site. When making changes:
-
-1. Open HTML files directly in a browser to verify rendering
-2. Check responsive design at different screen sizes
-3. Validate HTML using W3C validator if needed
-4. Test all navigation links work correctly
+- **HTML**: semantic HTML5, shared header/footer/nav on every page, content in `<main>`.
+- **CSS**: use the existing `:root` tokens (`var(--accent)`, `var(--border)`, …); class-based
+  selectors; no hard-coded colors; mobile-first; breakpoints at 768px and 640px.
+- **JS**: vanilla, in `site/assets/js/main.js` (theme toggle, hamburger nav, lightbox, home feed).
+- **Blog markdown**: first person, hands-on; 3–6 `##` sections; short paragraphs. See
+  `site/posts/_TEMPLATE.md` for the full voice/format rules.
+- **Cache-busting**: bump `?v=YYYY.MM.DDx` in `site/build.py`, `index.html`, `workex.html`,
+  `life.html` whenever CSS/JS changes, then rebuild the blog.
 
 ## Common Tasks
 
-### Adding/Updating Content
+### Adding a blog post
 
-1. Edit the HTML file directly (`index.html`, `about.html`, etc.)
-2. Modify content within the `<main>` section
-3. Keep header/footer consistent across pages
-4. Test in browser
+```bash
+cp site/posts/_TEMPLATE.md site/posts/$(date +%F)-my-post-slug.md
+# edit front-matter + body; set draft: false when ready
+cd site && python3 build.py && python3 -m http.server   # preview at :8000
+git add site/posts site/blog && git commit -m "blog: <title>" && git push
+```
 
-### Modifying Site Styling
+### Adding / editing a page
 
-1. Edit `assets/css/styles.css`
-2. Use CSS custom properties (variables) defined in `:root`
-3. Test responsive behavior with browser dev tools
-4. Keep changes minimal and maintainable
+- Edit the hand-written HTML in `site/`; add nav entries in `site/build.py` → `nav()`
+  and mirror them in the three HTML pages.
 
-### Adding a New Page
+### Styling
 
-1. Create new HTML file in repository root
-2. Copy structure from existing page (`index.html`)
-3. Update navigation in header/footer of all pages
-4. Add content in the `<main>` section
-5. Test all navigation links
+- Edit `site/assets/css/style.css`; bump the `?v=` version string; rebuild the blog.
 
-## GitHub Pages Deployment
+## Dependencies
 
-The site is deployed to GitHub Pages from the repository root. HTML files in the root directory are served directly. No build process is required for deployment.
+None for production: stdlib Python 3 for the blog build, vanilla HTML/CSS/JS for the site.
+No Node.js/npm.
 
 ## Best Practices
 
-1. **Keep it simple** - hand-edit HTML/CSS directly, no build complexity
-2. **Test across devices** - verify responsive design works properly
-3. **Maintain consistency** - keep header/footer/nav structure uniform across pages
-4. **Follow existing code style** - match indentation and formatting
-5. **Validate HTML/CSS** - use W3C validators to catch errors
-6. **Optimize for speed** - minimize CSS, avoid unnecessary dependencies
-7. **Keep navigation updated** - ensure all internal links work correctly
-
-## Security Considerations
-
-- Keep external links using `target="_blank"` with `rel="noopener"` for security
-- Validate all user-facing content
-- Keep dependencies minimal (currently none for production)
-
-## Getting Help
-
-- Project documentation: See this file and README files
-- Report issues on GitHub Issues
-- For questions about design: Reference the minimal, typography-focused approach
-
-## Notes for Copilot
-
-- When generating content, maintain the existing simple HTML structure
-- Prefer minimal changes that preserve the clean, modern aesthetic
-- Test generated HTML for proper structure and CSS class usage
-- Respect the existing design patterns and navigation structure
-- Keep external blog reference to https://baladengale.blogspot.com/
+1. Keep changes minimal and consistent with the existing design.
+2. Rebuild the blog (`python3 site/build.py`) after touching anything in `posts/`.
+3. External links: `target="_blank" rel="noopener"`.
+4. Use semantic HTML and `aria-*` for interactive elements.
+5. Respect `prefers-reduced-motion`; keep the dark/light theme via CSS tokens only.
+6. Don't hand-edit generated files under `site/blog/`.
