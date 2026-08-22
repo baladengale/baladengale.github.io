@@ -93,9 +93,19 @@ def render_markdown(md: str) -> str:
     while i < len(lines):
         line = lines[i]
 
-        # fenced code block
+        # fenced code block — ```raw passes HTML through verbatim (for rich
+        # diagrams); any other language hint renders as escaped <pre><code>.
         if line.startswith("```"):
             lang = line[3:].strip()
+            if lang == "raw":
+                html = []
+                i += 1
+                while i < len(lines) and not lines[i].startswith("```"):
+                    html.append(lines[i])
+                    i += 1
+                out.append("\n".join(html))
+                i += 1
+                continue
             code = []
             i += 1
             while i < len(lines) and not lines[i].startswith("```"):
@@ -215,7 +225,7 @@ def page(title: str, active: str, body: str, description: str = "") -> str:
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="{description}">
   <title>{title}</title>
-  <link rel="stylesheet" href="/assets/css/style.css?v=2026.08.16h">
+  <link rel="stylesheet" href="/assets/css/style.css?v=2026.08.22">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⌘</text></svg>">
   {THEME_SCRIPT}
 </head>
@@ -244,7 +254,7 @@ def page(title: str, active: str, body: str, description: str = "") -> str:
     </div>
   </div>
 </footer>
-<script src="/assets/js/main.js?v=2026.08.16h"></script>
+<script src="/assets/js/main.js?v=2026.08.22"></script>
 </body>
 </html>"""
 

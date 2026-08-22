@@ -3,6 +3,6 @@
 
 # source photos — curated copies live in site/assets/img/, originals stay local
 photos/
-
+blogs/
 # python
 __pycache__/

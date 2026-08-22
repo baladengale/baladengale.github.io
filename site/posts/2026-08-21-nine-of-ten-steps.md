@@ -1,0 +1,286 @@
+---
+title: "Nine of Ten Steps: Why Agent Reliability Is an Evals Problem"
+subtitle: A 2 AM incident, a skipped step, and the QA reflex that no longer works
+date: 2026-08-21
+tags: ai, kubernetes, sre, evals
+draft: false
+---
+
+It's 2 AM. Production is down. Error rates are spiking across regions,
+transactions are failing, and the incident has auto-escalated. A SWAT bridge
+spins up — fifty people on the call: SREs, application teams, database on-calls,
+a duty manager briefing leadership every fifteen minutes. Everyone is asking the
+same question: *what changed?*
+
+While the bridge is still doing roll call, an AI agent has already picked up the
+incident. It knows what to do — there's a runbook the SRE team has polished for
+two years. Ten steps, no shortcuts. The agent has run it two hundred times. It
+knows the shape of a memory leak, the fingerprint of a failing DB failover, the
+smell of an expiring certificate. Most nights it hands the on-call engineer a
+triaged ticket with the story already told and half the fix drafted.
+
+Tonight, it does **nine of the ten steps**. It skips step 5 — checking recent
+deployments — and writes back a confident, well-formatted root cause anyway:
+*"Elevated latency on the primary database is causing upstream 500s. Recommend
+failing over to the replica."*
+
+> The agent didn't lie. It skipped a step and didn't tell anyone.
+
+Here's what it missed:
+
+Had it checked the deploy history, it would have found that twenty minutes
+before the alert, someone shipped a config change that pointed the service at a
+stale environment variable. The database was fine. The failover would fix
+nothing — and bury the real cause deeper. The write-up lands in the bridge chat,
+sounds authoritative, and the bridge runs with it. Fifty people spend twenty
+minutes chasing a database problem that doesn't exist. When someone finally
+scrolls through the deploy history, the fix is a one-line rollback.
+
+## What the agent actually did
+
+```raw
+<figure class="diag diag-trace">
+  <figcaption><span class="diag-k">Observability trace</span> Tonight's run vs. the runbook contract</figcaption>
+  <div class="trace-grid">
+    <div class="trace-col trace-expected">
+      <div class="trace-colhead"><span class="trace-label">Runbook says</span><span class="trace-sub">10 steps, in order</span></div>
+      <div class="trace-cell done">
+        <span class="trace-step">1–4</span>
+        <span class="trace-what">incident, health, pods, logs</span>
+      </div>
+      <div class="trace-cell expected">
+        <span class="trace-step">5</span>
+        <span class="trace-what">recent deployments &amp; config changes</span>
+      </div>
+      <div class="trace-cell done">
+        <span class="trace-step">6–9</span>
+        <span class="trace-what">deps, metrics, ingress, platform</span>
+      </div>
+      <div class="trace-cell done">
+        <span class="trace-step">10</span>
+        <span class="trace-what">write root cause</span>
+      </div>
+    </div>
+    <div class="trace-arrow" aria-hidden="true">→</div>
+    <div class="trace-col trace-actual">
+      <div class="trace-colhead"><span class="trace-label">Agent did</span><span class="trace-sub">tonight's trace</span></div>
+      <div class="trace-cell done">
+        <span class="trace-step">1–4</span>
+        <span class="trace-what">called — evidence present</span>
+      </div>
+      <div class="trace-cell skipped">
+        <span class="trace-step">5</span>
+        <span class="trace-what">never called — no error, no log, no trace</span>
+      </div>
+      <div class="trace-cell done">
+        <span class="trace-step">6–9</span>
+        <span class="trace-what">called — evidence present</span>
+      </div>
+      <div class="trace-cell done warned">
+        <span class="trace-step">10</span>
+        <span class="trace-what">confident root cause written anyway</span>
+      </div>
+    </div>
+  </div>
+  <p class="trace-note"><span class="trace-label">The hole:</span> between step 4 and step 6, <code>get_recent_deployments</code> was never called. Not "called and failed." <strong>Never called.</strong> Without the trace, that hole is invisible — a resolved ticket looks the same whether the work was done or not.</p>
+</figure>
+```
+
+The raw trace tells the story plainly:
+
+```
+get_incident → check_health → get_pods → get_pod_logs → (nothing) →
+check_dependencies → get_metrics → check_ingress → check_platform_incidents →
+update_incident
+```
+
+Between step 4 and step 6 there's a hole. `get_recent_deployments` was never
+called. That's the gap that turned a one-line rollback into a twenty-minute
+chase.
+
+## The failure mode nobody greps for
+
+Run that same agent on the next ten incidents and it nails all ten — every
+step, in order, grounded, correct. Then on the eleventh, for no reason you can
+point to, it drops step 5 again. Or step 7. Or cites a log line it never read.
+
+This is **not** how traditional software fails.
+
+```raw
+<figure class="diag diag-failmode">
+  <figcaption><span class="diag-k">Failure modes</span> Deterministic vs. agentic systems</figcaption>
+  <div class="fail-grid">
+    <div class="fail-col fail-trad">
+      <div class="fail-head"><span class="fail-ico">⚙️</span><span>Traditional software</span></div>
+      <p>Skip a step in a bash script and you get a signal: an error, a non-zero exit code, a stack trace — <strong>something to grep for.</strong></p>
+      <div class="fail-sig ok">✓ failure is loud</div>
+      <div class="fail-sig ok">✓ leaves a trace</div>
+      <div class="fail-sig ok">✓ CI / exit code catches it</div>
+    </div>
+    <div class="fail-col fail-agent">
+      <div class="fail-head"><span class="fail-ico">🤖</span><span>Agentic system</span></div>
+      <p>Skip a step as an agent and you get a confident, plausible, ungrounded answer — one that reads exactly like the two hundred correct answers before it. <strong>Nothing looks broken.</strong></p>
+      <div class="fail-sig bad">✕ failure is silent</div>
+      <div class="fail-sig bad">✕ leaves no error</div>
+      <div class="fail-sig bad">✕ output looks correct</div>
+    </div>
+  </div>
+</figure>
+```
+
+When people say "AI is non-deterministic," this is what they mean. Not that the
+agent is random — that it's **variable in ways you can't predict from the
+outside**. The old QA reflex — *did the output match what we expected?* — falls
+apart, because the output almost always looks fine. The real question is
+different:
+
+> How did the agent get here, and did it actually do the work?
+
+The answer is one equation:
+
+```raw
+<figure class="diag diag-equation">
+  <figcaption><span class="diag-k">The equation</span> Agent reliability, in two halves</figcaption>
+  <div class="eq-row">
+    <div class="eq-term eq-reliability"><span class="eq-name">Reliability</span><span class="eq-desc">can you trust the agent with the pager?</span></div>
+    <div class="eq-op">=</div>
+    <div class="eq-term eq-obs"><span class="eq-name">Observability</span><span class="eq-desc">the flight recorder — every tool call, every response, replayable</span></div>
+    <div class="eq-op">+</div>
+    <div class="eq-term eq-evals"><span class="eq-name">Evals</span><span class="eq-desc">turn visibility into a verdict — scored on every run</span></div>
+  </div>
+  <p class="eq-note">Observability alone tells you <em>what happened</em> but not whether it was <em>good</em>. Evals alone judge the output without knowing <em>how the agent got there</em>. You need both.</p>
+</figure>
+```
+
+## Evals: turning visibility into a verdict
+
+Observability for agents means you can replay any run — every tool call, every
+parameter, every response, in order. Drop tonight's incident into a trace and the
+gap is obvious. But observability has a ceiling: it tells you **what happened**,
+not whether it was **good**. A trace shows the agent called
+`get_recent_deployments`; it doesn't tell you whether the root cause is actually
+*grounded in* what that call returned.
+
+Evals are **QA for agents** — scored the same way on every run, not just the
+ones someone happens to review. Three matter most:
+
+```raw
+<figure class="diag diag-evals">
+  <figcaption><span class="diag-k">The three evals</span> What each one scores, and what it catches</figcaption>
+  <div class="eval-grid">
+    <div class="eval-card">
+      <div class="eval-num">1</div>
+      <h3>Answer relevancy</h3>
+      <p class="eval-q">Did the write-back address the incident, or answer a question nobody asked?</p>
+      <div class="eval-catches">catches: off-topic write-ups, correct answers to the wrong incident</div>
+    </div>
+    <div class="eval-card">
+      <div class="eval-num">2</div>
+      <h3>Groundedness</h3>
+      <p class="eval-q">Is the root cause backed by evidence the agent actually gathered in <em>this</em> run — or a plausible guess dressed up as a finding?</p>
+      <div class="eval-catches">catches: hallucinated log lines, fabricated metrics, "sounds right" findings</div>
+    </div>
+    <div class="eval-card eval-card-key">
+      <div class="eval-num">3</div>
+      <h3>Tool sequence accuracy</h3>
+      <p class="eval-q">Did the agent follow the runbook, in order, without skipping load-bearing steps?</p>
+      <div class="eval-catches">catches: the skipped step 5 — tonight's miss, exactly</div>
+    </div>
+  </div>
+</figure>
+```
+
+That third one catches tonight's miss. Step 5 was in the runbook; step 5 was not
+in the trace. The eval flags it **before the engineer touches the ticket**.
+Instead of "here's a confident root cause, trust me," the ticket reads:
+
+> 9/10 steps completed — deployment history was not checked. Human verification
+> recommended before acting.
+
+No team can afford a senior engineer re-reading every ticket an agent closes, so
+a model does the reading. **LLM-as-a-judge** puts the agent's write-up
+side-by-side with the evidence it actually pulled and scores it: grounded or
+not, steps followed or not, answer on-topic or not. It's the same skim a senior
+engineer gives a ticket at handoff — except it runs on **every** ticket, not
+the two or three that get sampled.
+
+```raw
+<figure class="diag diag-flow">
+  <figcaption><span class="diag-k">Eval pipeline</span> Same pipeline, two runs — one clean, one caught</figcaption>
+  <div class="flow-runs">
+    <div class="flow-run flow-clean">
+      <div class="flow-runhead"><span class="flow-badge flow-badge-ok">10/10 steps</span><span class="flow-sub">evidence-backed run</span></div>
+      <div class="flow-track">
+        <div class="flow-node">Agent run</div>
+        <div class="flow-arrow" aria-hidden="true">→</div>
+        <div class="flow-node flow-node-obs">Observability trace<div class="flow-noded">every tool call, every response</div></div>
+        <div class="flow-arrow" aria-hidden="true">→</div>
+        <div class="flow-node flow-node-evals">
+          <div>Answer relevancy</div>
+          <div>Groundedness</div>
+          <div>Tool sequence accuracy</div>
+        </div>
+        <div class="flow-arrow" aria-hidden="true">→</div>
+        <div class="flow-node flow-node-judge">LLM-as-a-judge</div>
+        <div class="flow-arrow" aria-hidden="true">→</div>
+        <div class="flow-node flow-node-out flow-node-out-ok">Ticket closed<div class="flow-noded">15-second human verify</div></div>
+      </div>
+    </div>
+    <div class="flow-run flow-caught">
+      <div class="flow-runhead"><span class="flow-badge flow-badge-warn">9/10 steps</span><span class="flow-sub">step 5 missing</span></div>
+      <div class="flow-track">
+        <div class="flow-node">Agent run</div>
+        <div class="flow-arrow" aria-hidden="true">→</div>
+        <div class="flow-node flow-node-obs">Observability trace<div class="flow-noded">get_recent_deployments absent</div></div>
+        <div class="flow-arrow" aria-hidden="true">→</div>
+        <div class="flow-node flow-node-evals">
+          <div class="flow-flag">Answer relevancy <span class="flow-flag-pass">pass</span></div>
+          <div class="flow-flag">Groundedness <span class="flow-flag-pass">pass</span></div>
+          <div class="flow-flag">Tool sequence <span class="flow-flag-fail">FAIL — step 5 absent</span></div>
+        </div>
+        <div class="flow-arrow" aria-hidden="true">→</div>
+        <div class="flow-node flow-node-judge">LLM-as-a-judge</div>
+        <div class="flow-arrow" aria-hidden="true">→</div>
+        <div class="flow-node flow-node-out flow-node-out-warn">Flagged before handoff<div class="flow-noded">"deploy history not checked — verify before acting"</div></div>
+      </div>
+    </div>
+  </div>
+</figure>
+```
+
+Notice what the pipeline does **not** do: it doesn't fix the agent. It doesn't
+retry the run or rewrite the root cause. It turns a silent skip into a loud,
+scored signal — and hands that signal to a human *before* the bridge acts on a
+bad recommendation. The fix, when it comes, is still a human fix: a glance at
+the deploy history, a one-line rollback, a closed ticket.
+
+## The point is boring
+
+```raw
+<figure class="diag diag-payoff">
+  <figcaption><span class="diag-k">The payoff</span> What evals actually change</figcaption>
+  <div class="payoff-grid">
+    <div class="payoff-card">
+      <div class="payoff-ico">🛡️</div>
+      <h3>What evals do</h3>
+      <p>Make it impossible for a skipped step to pass as a complete one. The nine boring, correct runs stay boring. The one where the agent quietly dropped step 5 gets caught <strong>the night it happens</strong> — not next week, when someone reopens the ticket and realizes the failover fixed nothing.</p>
+    </div>
+    <div class="payoff-card payoff-card-na">
+      <div class="payoff-ico">🚫</div>
+      <h3>What evals don't do</h3>
+      <p>Make the agent smarter. Stop it from having off nights. Eliminate the skips entirely. Evals are a detector, not a cure — they turn an invisible failure mode into a loud, scored one that a human can act on in seconds.</p>
+    </div>
+  </div>
+  <p class="payoff-close">An agent that can be caught is an agent you can trust with the pager.</p>
+</figure>
+```
+
+Evals don't make an agent smarter. They don't stop it from having off nights.
+They make it impossible for a skipped step to pass as a complete one. The nine
+boring, correct runs stay boring. The one where the agent quietly dropped step 5
+gets caught the night it happens — not next week, when someone reopens the
+ticket and realizes the failover fixed nothing.
+
+---
+
+*Thanks for reading — ping me at dengalebr@gmail.com to discuss.*

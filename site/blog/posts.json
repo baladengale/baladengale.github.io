@@ -1,5 +1,21 @@
 [
   {
+    "title": "Nine of Ten Steps: Why Agent Reliability Is an Evals Problem",
+    "subtitle": "A 2 AM incident, a skipped step, and the QA reflex that no longer works",
+    "date": "2026-08-21",
+    "tags": "ai, kubernetes, sre, evals",
+    "draft": "false",
+    "slug": "nine-of-ten-steps",
+    "tags_list": [
+      "ai",
+      "kubernetes",
+      "sre",
+      "evals"
+    ],
+    "reading_minutes": 8,
+    "excerpt": "It's 2 AM. Production is down. Error rates are spiking across regions, transactions are failing, and the incident has auto-escalated. A SWAT bridge spins up \u2014 fifty people on the call: SREs\u2026"
+  },
+  {
     "title": "The Hundred-Year Conversation: A Century of Speaking Machine \u2014 Until Machines Spoke Human",
     "subtitle": "A century of interfaces, from mechanical levers to plain English \u2014 and what the reversal means for white-collar and blue-collar work.",
     "date": "2026-07-19",
