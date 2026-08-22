@@ -1,0 +1,27 @@
+# HTTPS route on the shared kind-infra Gateway: https://baladengale.internal
+#
+# Applied after namespace/deployment/service (order matters — see the kind
+# repo's `make site-deploy`, scripts/90-site.sh). Name, labels and annotation
+# match what `make sync` generates from the Service annotations, so both
+# paths converge on this same object.
+#
+# Plain YAML — no variables: kubectl apply -f deploy/route.yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: baladengale
+  namespace: baladengale
+  labels:
+    app.kubernetes.io/managed-by: kind-infra
+  annotations:
+    kind-infra.dev/host: "baladengale"
+spec:
+  parentRefs:
+    - name: kind-infra
+      namespace: agentgateway-system
+  hostnames:
+    - baladengale.internal
+  rules:
+    - backendRefs:
+        - name: baladengale-site
+          port: 8080

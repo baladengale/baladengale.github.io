@@ -7,8 +7,8 @@ metadata:
     app.kubernetes.io/name: baladengale-site
     app.kubernetes.io/part-of: baladengale-site
   annotations:
-    # kind-infra registration: `make sync` in the kind repo turns this into an
-    # HTTPRoute (baladengale.internal) on the shared AgentGateway + cert SAN
+    # kind-infra registration for `make sync` in the kind repo — converges on
+    # the same HTTPRoute as deploy/route.yaml (applied by `make site-deploy`)
     kind-infra.dev/host: "baladengale"
     kind-infra.dev/port: "8080"
 spec:

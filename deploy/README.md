@@ -34,13 +34,13 @@ Personal website and blog of Bala Dengale (previously `baladengale.is-a.dev` +
 | `deploy/namespace.yaml`  | namespace `baladengale`                                 |
 | `deploy/deployment.yaml` | 2-replica deployment with probes/resources              |
 | `deploy/service.yaml`    | ClusterIP service on 8080, carries `kind-infra.dev/host` annotations |
-| `deploy/deploy.sh`       | one-shot: build → load → apply → register via kind-infra |
+| `deploy/route.yaml`      | HTTPRoute `baladengale.internal` on the shared Gateway   |
+| `deploy/deploy.sh`       | thin wrapper: `make -C ../kind site-deploy`              |
 
-**Hostname routing:** there is no hand-rolled HTTPRoute here. The Service is
-annotated with `kind-infra.dev/host=baladengale`, and the kind-infra repo's
-`make sync` (or `make expose HOST=baladengale NS=baladengale SVC=baladengale-site PORT=8080`)
-creates the HTTPRoute on the shared AgentGateway and refreshes the cert SAN.
-DNS for `*.internal` is already handled by dnsmasq — no /etc/hosts edits.
+**Hostname routing:** `deploy/route.yaml` puts the site on the kind-infra
+repo's shared AgentGateway at `baladengale.internal` (plain YAML, same object
+`make sync` would generate from the Service annotations). DNS for
+`*.internal` is already handled by dnsmasq — no /etc/hosts edits.
 
 ## Writing a new blog post
 
@@ -61,15 +61,18 @@ Prereqs: docker, kind (cluster `kind`), kubectl, and the kind-infra repo
 serving `*.internal`.
 
 ```bash
-./deploy/deploy.sh
+./deploy/deploy.sh          # or directly: make -C ../kind site-deploy
 ```
+
+Builds the image, side-loads it into the nodes, and applies
+`namespace.yaml -> deployment.yaml -> service.yaml -> route.yaml` in order,
+then rolls the pods and refreshes the Gateway cert SAN.
 
 Open **https://baladengale.internal** (also on plain http :80).
 
 ## Teardown
 
 ```bash
-make -C ../kind unexpose HOST=baladengale    # remove gateway route
-kubectl delete namespace baladengale         # removes deploy + service
+kubectl delete namespace baladengale   # removes deploy + service + route
 docker image rm baladengale-site:latest
 ```
