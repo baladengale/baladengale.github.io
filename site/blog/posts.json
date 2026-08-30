@@ -1,5 +1,21 @@
 [
   {
+    "title": "The story so far: from chatbots to agents",
+    "subtitle": "It's 2 AM and I'm wondering if I picked the wrong agent framework. Four years, three waves \u2014 and why the endgame was never a framework at all",
+    "date": "2026-08-30",
+    "tags": "ai, agents, llm, frameworks",
+    "draft": "false",
+    "slug": "story-from-chatbots-to-agents",
+    "tags_list": [
+      "ai",
+      "agents",
+      "llm",
+      "frameworks"
+    ],
+    "reading_minutes": 8,
+    "excerpt": "Every few months a new agent framework lands, and the same question fills my feed: which one should I pick? LangChain, LangGraph, CrewAI, ADK, OpenAI's SDK \u2014 the names rotate, the anxiety doesn't."
+  },
+  {
     "title": "Nine of Ten Steps: Why Agent Reliability Is an Evals Problem",
     "subtitle": "A 2 AM incident, a skipped step, and the QA reflex that no longer works",
     "date": "2026-08-21",
@@ -12,7 +28,7 @@
       "sre",
       "evals"
     ],
-    "reading_minutes": 8,
+    "reading_minutes": 4,
     "excerpt": "It's 2 AM. Production is down. Error rates are spiking across regions, transactions are failing, and the incident has auto-escalated. A SWAT bridge spins up \u2014 fifty people on the call: SREs\u2026"
   },
   {

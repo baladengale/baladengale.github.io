@@ -65,7 +65,10 @@ def parse_post(path: Path):
     meta.setdefault("draft", "false")
     meta["slug"] = slug
     meta["tags_list"] = [t.strip() for t in meta["tags"].split(",") if t.strip()]
-    meta["reading_minutes"] = max(1, round(len(body.split()) / 200))
+    # reading time counts visible prose only — raw fenced blocks are figure
+    # markup (rendered as compact diagrams), not words a reader reads
+    visible = re.sub(r"```raw.*?```", "", body, flags=re.S)
+    meta["reading_minutes"] = max(1, round(len(visible.split()) / 200))
     return meta, body
 
 
@@ -225,7 +228,7 @@ def page(title: str, active: str, body: str, description: str = "") -> str:
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="{description}">
   <title>{title}</title>
-  <link rel="stylesheet" href="/assets/css/style.css?v=2026.08.22">
+  <link rel="stylesheet" href="/assets/css/style.css?v=2026.08.30">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⌘</text></svg>">
   {THEME_SCRIPT}
 </head>
@@ -254,7 +257,7 @@ def page(title: str, active: str, body: str, description: str = "") -> str:
     </div>
   </div>
 </footer>
-<script src="/assets/js/main.js?v=2026.08.22"></script>
+<script src="/assets/js/main.js?v=2026.08.30"></script>
 </body>
 </html>"""
 
@@ -350,6 +353,7 @@ def main():
             collecting = True
             para.append(stripped)
         excerpt = " ".join(para)
+        excerpt = excerpt.replace("*", "").replace("`", "")
         if len(excerpt) > 200:
             cut = excerpt[:200].rsplit(" ", 1)[0]
             excerpt = re.sub(r"[.,;:—-]+$", "", cut) + "…"
